@@ -66,6 +66,7 @@ function query(ns) {
             id title availableForSale
             price { amount currencyCode }
             selectedOptions { name value }
+            image { url }
           } } }
         } }
       }
@@ -130,12 +131,21 @@ function mapProduct(node, warn) {
   const colours = [];
   const variantMap = {};
 
+  /* The gallery swap on the product page reads colours[].image, so a colour
+     needs its OWN image, not the product's featured one repeated for every
+     swatch — that was the bug here: every colour used to get the same
+     featuredImage, so the swatch never actually changed anything. The first
+     variant found wearing a colour supplies it, the same rule a shopper's
+     eye would use. */
+  const colourImage = {};
+
   for (const v of variants) {
     const size = optionValue(v, 'size') || optionValue(v, 'waist') || 'One size';
     const colour = optionValue(v, 'colour') || optionValue(v, 'color') || null;
     if (!sizes.includes(size)) sizes.push(size);
     if (!v.availableForSale && !soldOut.includes(size)) soldOut.push(size);
     if (colour && !colours.includes(colour)) colours.push(colour);
+    if (colour && !colourImage[colour] && v.image?.url) colourImage[colour] = v.image.url;
     variantMap[size + '::' + (colour || '')] = v.id;
     variantMap[size] = variantMap[size] || v.id;
   }
@@ -159,7 +169,7 @@ function mapProduct(node, warn) {
     colours: colours.map((c) => ({
       name: c,
       hex: hexes[c] || '#8A8A8A',
-      image: node.featuredImage?.url || ''
+      image: colourImage[c] || node.featuredImage?.url || ''
     })),
     sizes,
     soldOut: reallyOut,

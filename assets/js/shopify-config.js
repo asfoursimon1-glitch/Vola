@@ -42,10 +42,10 @@
 
   window.VOLA.shopifyConfig = {
     /* your-store.myshopify.com — NOT your custom domain */
-    domain: '',
+    domain: '13nc6e-mv.myshopify.com',
 
     /* Storefront API public access token */
-    storefrontToken: '',
+    storefrontToken: 'ca0138b1c0fe203f69c082c9db3f7eae',
 
     /* Storefront API version. Shopify supports each for a year; bump this
        quarterly and re-run the catalogue sync. */
