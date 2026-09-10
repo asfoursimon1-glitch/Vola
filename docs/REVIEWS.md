@@ -1,7 +1,7 @@
 # Reviews — Judge.me
 
 Every rating, every star and every true-to-size figure on this site is counted
-from `VOLA.reviews` in `assets/js/data.js`. Nothing is asserted. The score on a
+from `VOLA.reviews` in `assets/js/core/data.js`. Nothing is asserted. The score on a
 product **is** the average of the reviews printed underneath it; the
 true-to-size percentage **is** the share of those reviewers who said so.
 
@@ -33,7 +33,7 @@ argument.
 
 ## 2. Set the shop domain
 
-In `assets/js/shopify-config.js`:
+In `assets/js/integrations/shopify-config.js`:
 
 ```js
 window.VOLA.judgemeConfig = {

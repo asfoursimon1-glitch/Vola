@@ -22,7 +22,7 @@ directory.
 
 That is the whole reason the newsletter runs at runtime while reviews are
 synced by a build tool — see the note at the top of
-[`assets/js/newsletter.js`](assets/js/newsletter.js).
+[`assets/js/integrations/newsletter.js`](../assets/js/integrations/newsletter.js).
 
 ## 2. Get the list ID
 
@@ -30,7 +30,7 @@ Klaviyo → **Audience → Lists & Segments** → your list → **Settings** →
 
 ## 3. Fill both in
 
-In `assets/js/shopify-config.js`:
+In `assets/js/integrations/shopify-config.js`:
 
 ```js
 window.VOLA.klaviyoConfig = {
@@ -137,7 +137,7 @@ a second, redundant action.
 
 ## Switching platforms
 
-Nothing outside `assets/js/newsletter.js` and the `klaviyoConfig` block knows
+Nothing outside `assets/js/integrations/newsletter.js` and the `klaviyoConfig` block knows
 Klaviyo exists. Mailchimp, Omnisend and Attentive all expose an equivalent
 browser-safe subscribe endpoint. Replace the one `fetch` in `subscribe()`,
 return `{ pending: true|false }`, and the UI, the wording, the failure states

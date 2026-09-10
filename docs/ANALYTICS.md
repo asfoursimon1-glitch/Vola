@@ -83,7 +83,7 @@ An email address, a name, a message, an order number, a fit profile, a
 measurement.
 
 That is enforced, not trusted. `clean()` in
-[`assets/js/analytics.js`](assets/js/analytics.js) drops any property whose
+[`assets/js/integrations/analytics.js`](../assets/js/integrations/analytics.js) drops any property whose
 **key** names personal data (`email`, `name`, `address`, `phone`, `message`,
 `order`, `height`, `weight`, `waist`, `measure`, …), any **value** shaped like
 an email address or a phone number, and any value over 120 characters — which

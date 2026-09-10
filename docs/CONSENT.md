@@ -1,6 +1,6 @@
 # Cookie banner — there isn't one, and that is the finished behaviour
 
-`assets/js/consent.js` renders nothing on this site today. Not because it is
+`assets/js/integrations/consent.js` renders nothing on this site today. Not because it is
 unfinished — because nothing here needs consent, and the file works that out
 for itself rather than being told.
 

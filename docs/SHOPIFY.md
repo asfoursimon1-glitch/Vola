@@ -5,7 +5,7 @@ each kind of Shopify data reaches it, and the three answers are different.
 
 | What | How | Why |
 |---|---|---|
-| **Catalogue** | Build time — `node tools/shopify-sync.mjs` writes `assets/js/data.js` | Every page reads `VOLA.products` synchronously, and every derived figure on the site is computed from it. A generated file keeps the shop static, fast, and working when Shopify is slow. |
+| **Catalogue** | Build time — `node tools/shopify-sync.mjs` writes `assets/js/core/data.js` | Every page reads `VOLA.products` synchronously, and every derived figure on the site is computed from it. A generated file keeps the shop static, fast, and working when Shopify is slow. |
 | **Cart & checkout** | Runtime — Storefront Cart API → Shopify's hosted checkout | Inventory and totals must be current, and the checkout URL is issued per cart. |
 | **Accounts & orders** | Runtime — Storefront Customer API | Sign-in, registration, reset and order history become real. |
 
@@ -37,7 +37,7 @@ Install the app, then copy the **Storefront API access token**.
 > administrative. Do not confuse it with the **Admin API token**, which is a
 > secret and must never appear in this directory or in git.
 
-Put the domain and token in `assets/js/shopify-config.js`. Use the
+Put the domain and token in `assets/js/integrations/shopify-config.js`. Use the
 `*.myshopify.com` domain, not your custom one.
 
 ---
@@ -103,7 +103,7 @@ matches loosely). Set **product type** to match your categories exactly:
 
 ```bash
 node tools/shopify-sync.mjs --dry     # look first
-node tools/shopify-sync.mjs           # write assets/js/data.js
+node tools/shopify-sync.mjs           # write assets/js/core/data.js
 ```
 
 It rewrites **only** the `PRODUCTS` array. Categories, cloth weights, cost

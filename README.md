@@ -46,46 +46,45 @@ at a time. Neither says anything about how to serve this in production.
 
 ## Assets
 
+`assets/js/` is split into three folders by role — shared infrastructure,
+third-party integrations, and one script per page — rather than one flat
+folder of 29 files:
+
 ```
 assets/
-  css/vola.css      design system — tokens, components, responsive rules, motion
-  css/fonts.css     the two typefaces, served from this domain (generated)
-  fonts/*.woff2     Cormorant and Montserrat, latin + latin-ext (OFL 1.1)
-  js/data.js        the catalogue (19 products across 9 categories)
-  js/app.js         cart store, cart drawer, mobile menu, toasts, icons, reveal
-  js/fit.js         the fit profile — measurements, size recommendation, form
-  js/home.js        homepage — tiles, your-size shelf, cloth routes, mills, facts
-  js/about.js       atelier page — mill records and service facts
-  js/contact.js     contact form — validation, draft, incoming piece, sizes opt-in
-  js/mtm.js         made to measure — disciplines, process, terms, consultation form
-  js/fitstudio.js   fit studio — profile hero, size chart, how cuts run, raw denim
-  js/reviews.js     reviews — filtering by fit outcome / size / score / piece
-  js/trace.js       traceability — mill record, cost profiles, made-to-order
-  js/care.js        care & repairs — repair process, coverage, care regimens
-  js/shopify-config.js  the one file you edit to connect a store
-  js/shopify.js     Shopify runtime — checkout, customer accounts, orders
-  js/orders.js      the order model and its lookup seam — contains no orders
-  js/track.js       the tracking page — timeline, delivery facts, returns
-  js/auth.js        session layer and the three auth seams — contains no authentication
-  js/account.js     the account page — sign in, reset, signed in
-  js/register.js    creating an account — consent, verification, resend
-  js/faq.js         the answers, and the contextual help box that reuses them
-  js/help.js        help centre page — sections, contents, live search
-  js/motion.js      scroll parallax, magnetic CTAs, the drifting hearts
-  js/shop.js        collection filtering / sorting / search
-  js/product.js     product detail page
-  js/cart.js        bag page and checkout validation
-  js/newsletter.js  footer signup — Klaviyo, wording, failures, remembering
-  js/forms.js       contact + commission transport — draft safety, fallbacks
-  js/privacy.js     the privacy policy — derived from the config and your storage
-  js/analytics.js   measuring — off by default, and a guard that drops anything personal
-  js/consent.js     the consent layer — renders nothing, because nothing needs it
-  img/*.svg         25 files — 22 art-directed placeholder plates, the hero
-                    silhouette, the favicon and the heart the motion layer drifts
-  img/_generate.py  regenerates the plates and the hero
+  css/vola.css            design system — tokens, components, responsive rules, motion
+  css/fonts.css           the two typefaces, served from this domain (generated)
+  fonts/*.woff2           Cormorant and Montserrat, latin + latin-ext (OFL 1.1)
+
+  js/core/                shared infrastructure, used across most or all pages
+    app.js                  cart store, cart drawer, mobile menu, toasts, icons, reveal
+    data.js                 the catalogue (19 products across 9 categories)
+    auth.js                 session layer and the three auth seams — contains no authentication
+    fit.js                  the fit profile — measurements, size recommendation, form
+    forms.js                contact + commission transport — draft safety, fallbacks
+    faq.js                  the answers, and the contextual help box that reuses them
+    motion.js               scroll parallax, magnetic CTAs, the drifting hearts
+
+  js/integrations/        third-party service modules
+    shopify-config.js       the one file you edit to connect a store
+    shopify.js               Shopify runtime — checkout, customer accounts, orders
+    analytics.js             measuring — off by default, and a guard that drops anything personal
+    consent.js                the consent layer — renders nothing, because nothing needs it
+    newsletter.js             footer signup — Klaviyo, wording, failures, remembering
+
+  js/pages/               one script per HTML page, page-exclusive logic only
+    about.js, account.js, care.js, cart.js, contact.js, fitstudio.js, help.js,
+    home.js, mtm.js, orders.js, privacy.js, product.js, register.js, reviews.js,
+    shop.js, trace.js, track.js
+
+  img/*.svg               25 files — 22 art-directed placeholder plates, the hero
+                           silhouette, the favicon and the heart the motion layer drifts
+  img/_generate.py        regenerates the plates and the hero
 design-system/vola/MASTER.md   the design system, described from the shipped CSS
-tools/shopify-sync.mjs         pulls the catalogue from Shopify into data.js
-tools/judgeme-sync.mjs         pulls reviews from Judge.me into data.js
+docs/                     the six integration/policy docs — SHOPIFY.md, REVIEWS.md,
+                          NEWSLETTER.md, CONTACT.md, ANALYTICS.md, CONSENT.md
+tools/shopify-sync.mjs         pulls the catalogue from Shopify into assets/js/core/data.js
+tools/judgeme-sync.mjs         pulls reviews from Judge.me into assets/js/core/data.js
 tools/fonts-fetch.mjs          downloads the typefaces and writes css/fonts.css
 tools/fixtures/*.json          recorded payloads, for testing both mappings
 ```
@@ -102,34 +101,34 @@ which turns the auth seams into real ones).
 With no store configured everything falls back to the local catalogue and the
 demo seams, so the site runs exactly as it does today while you set it up.
 
-**See [SHOPIFY.md](SHOPIFY.md)** for the credentials, the metafield
+**See [SHOPIFY.md](docs/SHOPIFY.md)** for the credentials, the metafield
 definitions that carry the cloth spec / provenance / fit data, and the one gap
 — guest order lookup, which needs a twenty-line serverless proxy because the
 Storefront API cannot do it.
 
 Reviews are the fourth route: Shopify has no review API, so they come from
 **Judge.me**, also at build time (`node tools/judgeme-sync.mjs`) because that
-token is private. **See [REVIEWS.md](REVIEWS.md)** — in particular the custom
+token is private. **See [REVIEWS.md](docs/REVIEWS.md)** — in particular the custom
 questions, without which Judge.me collects no fit verdict and the true-to-size
 figures have nothing to count.
 
 The newsletter is the fifth: **Klaviyo**, at runtime, through the public
 company ID that is meant to ship in a browser. **See
-[NEWSLETTER.md](NEWSLETTER.md)** — in particular `doubleOptIn`, which decides
+[NEWSLETTER.md](docs/NEWSLETTER.md)** — in particular `doubleOptIn`, which decides
 whether the site says "you are on the list" or "check your email", because
 Klaviyo's 202 does not distinguish them.
 
 The contact and commission forms are the sixth: a **Formspree** endpoint, also
 public by design, because sending mail needs a secret and this site has no
-server. **See [CONTACT.md](CONTACT.md)**.
+server. **See [CONTACT.md](docs/CONTACT.md)**.
 
 Analytics is the seventh, and the only one that is **off by default and stays
 off** until someone fills in a domain — **Plausible**, cookieless and
-EU-hosted. **See [ANALYTICS.md](ANALYTICS.md)**.
+EU-hosted. **See [ANALYTICS.md](docs/ANALYTICS.md)**.
 
 And there is an eighth that is not a service at all: the **consent layer**,
 which renders nothing because nothing here needs permission — and turns itself
-on the moment something does. **See [CONSENT.md](CONSENT.md)**.
+on the moment something does. **See [CONSENT.md](docs/CONSENT.md)**.
 
 ## The newsletter
 
@@ -179,7 +178,7 @@ text and was told the atelier had it: waiting for a reply that cannot come, to
 a message that no longer exists.
 
 Both now post to a Formspree endpoint through
-[`assets/js/forms.js`](assets/js/forms.js), which exists to enforce three
+[`assets/js/core/forms.js`](assets/js/core/forms.js), which exists to enforce three
 things:
 
 1. **Nothing is claimed until the endpoint says so.** No fake latency; the
@@ -298,7 +297,7 @@ One thing deliberately left on the table: **raw search terms**. Knowing what
 people search for and do not find is genuinely valuable, and a search box is
 also where somebody eventually types their own name. `No results` reports the
 filter groups and whether a search happened, not the words. See
-[ANALYTICS.md](ANALYTICS.md) if you want to revisit that — in the guard, where
+[ANALYTICS.md](docs/ANALYTICS.md) if you want to revisit that — in the guard, where
 the reasoning lives, not at the call site.
 
 ## The cookie banner
@@ -340,7 +339,7 @@ than after it, and a choice takes effect on the page it was made on rather than
 the next one. A stored choice about a different set of categories is discarded
 rather than assumed to carry over.
 
-**See [CONSENT.md](CONSENT.md)**, including `consentConfig.required: 'always'`
+**See [CONSENT.md](docs/CONSENT.md)**, including `consentConfig.required: 'always'`
 if your organisation wants a banner regardless.
 
 ## The typefaces
@@ -388,7 +387,7 @@ origins across every page.
 
 ## The homepage
 
-Everything below the hero renders from `data.js` via `assets/js/home.js`
+Everything below the hero renders from `data.js` via `assets/js/pages/home.js`
 rather than being typed into `index.html`. A homepage that says "nine
 disciplines" over six tiles — which this one did — is the cheapest possible
 way to look careless, and deriving the copy is what stops it recurring.
@@ -713,7 +712,7 @@ rating line on every product deep-links to that product's reviews.
 ### Where they come from
 
 `VOLA.reviews` is filled from **Judge.me** at build time by
-`tools/judgeme-sync.mjs` — see **REVIEWS.md**. It ships empty, and the site
+`tools/judgeme-sync.mjs` — see **docs/REVIEWS.md**. It ships empty, and the site
 says so: "No reviews yet" on the product page, on the reviews page and in the
 Fit Studio, with the filter rail and the sort bar hidden rather than offered
 with nothing behind them.
@@ -986,7 +985,7 @@ size: `fit.recommend()` (this piece) and `fit.baseSize()` (your profile)
 legitimately differ whenever a cut runs small, and printing one in the message
 above the other in the consent line reads as the form contradicting itself.
 
-The inline script moved to `assets/js/contact.js`; it was the last page still
+The inline script moved to `assets/js/pages/contact.js`; it was the last page still
 carrying its behaviour in a `<script>` block.
 
 **Final sale is now stated on the pieces it applies to.** It used to be a
@@ -1007,7 +1006,7 @@ shopper would have to go looking for.
   properties and almost nobody publishes them as anything but prose buried in
   a composition string. `denim.oz` is also a collection filter (light / mid /
   heavy), which is the part no mainstream denim retailer offers.
-- **The fit** (`.fitrec` + `assets/js/fit.js`) — height, weight, waist and
+- **The fit** (`.fitrec` + `assets/js/core/fit.js`) — height, weight, waist and
   shoe size, saved once in `localStorage` under `vola.fit.v1`, then reused on
   every product page and in the collection rail. It pre-selects the
   recommended size, marks it in the size row, and says in one sentence *why*
@@ -1056,7 +1055,7 @@ restoring them if the reader changes their mind. Any new motion must do both.
   this pass added the scale). The cart drawer reuses it to stagger its line
   items in on a fresh open, but never on a quantity tick while it's already
   open — re-fading the whole list on every click would read as a glitch.
-- **Parallax** — `assets/js/motion.js` translates `[data-parallax]`
+- **Parallax** — `assets/js/core/motion.js` translates `[data-parallax]`
   elements a little slower than the scroll (`data-parallax="0.12"` on the
   hero background, `"0.06"` on the two large editorial images in the atelier
   sections). The offset is clamped to 5% of the element's own height on
@@ -1186,19 +1185,19 @@ Verified in the browser on the built pages, not just intended:
 that validated and stopped, a contact form that assembled a payload and threw
 it away — have been closed, and closing them was most of the work above. What
 is left is **credentials**, not code: fill in
-[`assets/js/shopify-config.js`](assets/js/shopify-config.js) and the site
+[`assets/js/integrations/shopify-config.js`](assets/js/integrations/shopify-config.js) and the site
 connects itself. Each service degrades to something honest while blank, so
 nothing breaks in between.
 
 | What | Where it goes now | Still to do |
 |---|---|---|
-| Catalogue | `node tools/shopify-sync.mjs` writes `data.js` | Credentials + metafields — **SHOPIFY.md** |
+| Catalogue | `node tools/shopify-sync.mjs` writes `data.js` | Credentials + metafields — **docs/SHOPIFY.md** |
 | Cart & checkout | `cart.js` → `V.shopify.createCheckout()` → Shopify's hosted checkout | Credentials. No card fields exist on this site by design; none should be added |
 | Accounts & orders | `auth.js` / `orders.js` → Storefront Customer API | Credentials, plus one gap: guest order lookup needs a small serverless proxy |
-| Reviews | `node tools/judgeme-sync.mjs` writes `data.js` | A private token in the environment — **REVIEWS.md** |
-| Newsletter | `newsletter.js` → Klaviyo | Public company + list ID — **NEWSLETTER.md** |
-| Contact & commissions | `contact.js` / `mtm.js` → `V.forms.submit()` → Formspree | One endpoint — **CONTACT.md** |
-| Analytics | `analytics.js` → Plausible | A domain, if you want any — **ANALYTICS.md** |
+| Reviews | `node tools/judgeme-sync.mjs` writes `data.js` | A private token in the environment — **docs/REVIEWS.md** |
+| Newsletter | `newsletter.js` → Klaviyo | Public company + list ID — **docs/NEWSLETTER.md** |
+| Contact & commissions | `contact.js` / `mtm.js` → `V.forms.submit()` → Formspree | One endpoint — **docs/CONTACT.md** |
+| Analytics | `analytics.js` → Plausible | A domain, if you want any — **docs/ANALYTICS.md** |
 
 Two things worth knowing about the catalogue seam. Each entry in a product's
 `colours` array carries its own `image`, which is what the swatch swaps the
@@ -1226,7 +1225,7 @@ for. Skipping it does not break a test; it silently makes the privacy page
 wrong, which is the one failure this architecture exists to prevent.
 
 The fit profile never leaves the browser. If you later add accounts, that is
-the seam to move it behind: `fit.get` / `fit.set` in `assets/js/fit.js` are the
+the seam to move it behind: `fit.get` / `fit.set` in `assets/js/core/fit.js` are the
 only two functions that touch storage.
 
 ## Content to replace before launch

@@ -45,7 +45,7 @@ ID, and in the opposite category to the Judge.me token.
 
 ## 2. Fill it in
 
-In `assets/js/shopify-config.js`:
+In `assets/js/integrations/shopify-config.js`:
 
 ```js
 window.VOLA.formsConfig = {
@@ -94,7 +94,7 @@ profile exists. Someone's measurements are theirs to send.
 ## What happens when it fails
 
 This is the part that matters, and the reason the transport lives in
-`assets/js/forms.js` rather than in each page.
+`assets/js/core/forms.js` rather than in each page.
 
 **The draft is deleted only after a confirmed success.** On any failure the
 text is exactly where they left it, the saved draft is untouched, and the
@@ -154,7 +154,7 @@ building it in here.
 
 ## Switching platforms
 
-Nothing outside `assets/js/forms.js` and the `formsConfig` block knows
+Nothing outside `assets/js/core/forms.js` and the `formsConfig` block knows
 Formspree exists. Basin, Getform, Web3Forms and a serverless function of your
 own all take a JSON POST and answer 2xx. Replace the one `fetch` in `send()`,
 keep the status handling, and both forms follow — including the draft
