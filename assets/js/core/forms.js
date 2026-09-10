@@ -44,7 +44,7 @@
       return Promise.reject(err(
         'This form is not connected yet, so nothing was sent. Your message has ' +
         'been kept — copy it somewhere safe.',
-        'Add a form endpoint to assets/js/shopify-config.js — see CONTACT.md.'));
+        'Add a form endpoint to assets/js/integrations/shopify-config.js — see docs/CONTACT.md.'));
     }
 
     var body = {};
@@ -81,7 +81,7 @@
       }
       if (res.status === 403 || res.status === 404) {
         throw err('This form is misconfigured and nothing was sent. Your message has been kept.',
-          'The endpoint answered ' + res.status + ' — check it in assets/js/shopify-config.js.');
+          'The endpoint answered ' + res.status + ' — check it in assets/js/integrations/shopify-config.js.');
       }
       throw err('The message could not be sent. Nothing has been lost — try again.');
     }, function () {

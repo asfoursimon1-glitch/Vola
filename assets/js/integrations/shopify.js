@@ -4,7 +4,7 @@
    routes because they have different requirements:
 
      CATALOGUE   build time.  `node tools/shopify-sync.mjs` pulls products and
-                 metafields and writes assets/js/data.js. The site stays
+                 metafields and writes assets/js/core/data.js. The site stays
                  static and synchronous, so all fifteen pages and every
                  derived figure keep working untouched — and the shop is fast
                  and survives Shopify being slow.

@@ -133,7 +133,7 @@
 
   function warn(key, why) {
     console.warn('[VOLÀ] analytics: dropped "' + key + '" — ' + why +
-      '. Nothing identifying is ever sent. See assets/js/analytics.js.');
+      '. Nothing identifying is ever sent. See assets/js/integrations/analytics.js.');
   }
 
   /* ────────────────────────────────────────────────────────────── sending ── */

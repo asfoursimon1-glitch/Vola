@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* VOLÀ — pull reviews from Judge.me and write them into assets/js/data.js.
+/* VOLÀ — pull reviews from Judge.me and write them into assets/js/core/data.js.
  *
  *   JUDGEME_TOKEN=… node tools/judgeme-sync.mjs
  *   JUDGEME_TOKEN=… node tools/judgeme-sync.mjs --dry     summarise, write nothing
@@ -43,9 +43,9 @@ const API = 'https://judge.me/api/v1/reviews';
    from disk, and getting the question titles wrong would silently drop every
    fit answer. Environment variables win, for CI. */
 async function loadConfig() {
-  const src = await readFile(join(ROOT, 'assets/js/shopify-config.js'), 'utf8');
+  const src = await readFile(join(ROOT, 'assets/js/integrations/shopify-config.js'), 'utf8');
   const start = src.indexOf('window.VOLA.judgemeConfig = ');
-  if (start < 0) throw new Error('No judgemeConfig in assets/js/shopify-config.js');
+  if (start < 0) throw new Error('No judgemeConfig in assets/js/integrations/shopify-config.js');
   const open = src.indexOf('{', start);
   const close = src.indexOf('\n  };', open);
   const literal = src.slice(open, close + 4).replace(/;\s*$/, '');
@@ -262,7 +262,7 @@ function resolve(r, index) {
    catalogue, the categories, the cost profiles, the size chart — is left byte
    for byte, exactly as the catalogue sync leaves the reviews alone. */
 async function writeReviews(reviews) {
-  const path = join(ROOT, 'assets/js/data.js');
+  const path = join(ROOT, 'assets/js/core/data.js');
   const src = await readFile(path, 'utf8');
 
   const startMark = '  var REVIEWS = [';
@@ -302,7 +302,7 @@ try {
   if (!process.env.JUDGEME_MOCK && (!cfg.token || !cfg.shopDomain)) {
     console.error(
       '\n  No Judge.me credentials.\n\n' +
-      '  Put your shop domain in assets/js/shopify-config.js (judgemeConfig.shopDomain)\n' +
+      '  Put your shop domain in assets/js/integrations/shopify-config.js (judgemeConfig.shopDomain)\n' +
       '  and pass the private API token in the environment:\n\n' +
       '      JUDGEME_TOKEN=… node tools/judgeme-sync.mjs\n\n' +
       '  Judge.me → Settings → Integrations → API tokens.\n' +
@@ -310,7 +310,7 @@ try {
     process.exit(1);
   }
 
-  const dataSrc = await readFile(join(ROOT, 'assets/js/data.js'), 'utf8');
+  const dataSrc = await readFile(join(ROOT, 'assets/js/core/data.js'), 'utf8');
   const index = buildIndex(dataSrc);
 
   console.log(`\n  Fetching reviews for ${cfg.shopDomain || '(mock)'} …`);

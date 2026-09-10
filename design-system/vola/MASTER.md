@@ -83,7 +83,7 @@ in parallel. Only the faces above are subsetted (`latin`, `latin-ext`), with
 `font-display: swap`. `assets/fonts/OFL.txt` must travel with them.
 
 > ⛔ **Do not add a Google Fonts `@import` or `<link>`.** The self-hosting is
-> deliberate: it removes a third-party request, and `assets/js/privacy.js`
+> deliberate: it removes a third-party request, and `assets/js/pages/privacy.js`
 > scans the DOM for exactly that link and will report the site as contacting a
 > font provider if one reappears.
 

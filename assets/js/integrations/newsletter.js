@@ -28,7 +28,7 @@
   function cfg() { return V.klaviyoConfig || {}; }
   function ready() { return V.newsletterReady && V.newsletterReady(); }
 
-  /* Same split as assets/js/forms.js: the reader gets a plain sentence, and
+  /* Same split as assets/js/core/forms.js: the reader gets a plain sentence, and
      anything that names a file, a config key or an implementation detail
      travels only as `.hint`, surfaced by console.warn in the catch below.
      Without this, a wrong companyId/listId used to print straight into the
@@ -63,7 +63,7 @@
     if (!ready()) {
       return Promise.reject(err(
         'The newsletter is not connected yet, so nothing was sent.',
-        'Add your Klaviyo companyId and listId to assets/js/shopify-config.js — see NEWSLETTER.md.'));
+        'Add your Klaviyo companyId and listId to assets/js/integrations/shopify-config.js — see docs/NEWSLETTER.md.'));
     }
 
     var body = {
@@ -108,7 +108,7 @@
       if (res.status === 401 || res.status === 403) {
         throw err('The newsletter is misconfigured and nothing was sent.',
           'The Klaviyo API answered ' + res.status +
-          ' — check companyId and listId in assets/js/shopify-config.js.');
+          ' — check companyId and listId in assets/js/integrations/shopify-config.js.');
       }
       throw err('The list could not be reached. Nothing was sent — please try again.');
     }, function () {

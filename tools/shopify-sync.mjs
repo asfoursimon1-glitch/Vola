@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* VOLÀ — pull the catalogue from Shopify and write assets/js/data.js.
+/* VOLÀ — pull the catalogue from Shopify and write assets/js/core/data.js.
  *
  *   node tools/shopify-sync.mjs
  *   node tools/shopify-sync.mjs --dry     print a summary, write nothing
@@ -29,7 +29,7 @@ const DRY = process.argv.includes('--dry');
 /* Read from the same file the browser reads, so there is one place to
    configure a store. Environment variables win, for CI. */
 async function loadConfig() {
-  const src = await readFile(join(ROOT, 'assets/js/shopify-config.js'), 'utf8');
+  const src = await readFile(join(ROOT, 'assets/js/integrations/shopify-config.js'), 'utf8');
   const pick = (key) => (src.match(new RegExp(key + `:\\s*'([^']*)'`)) || [, ''])[1];
   return {
     domain: process.env.SHOPIFY_DOMAIN || pick('domain'),
@@ -234,7 +234,7 @@ function safeJson(s) {
    chart, the care regimens, the reviews — is editorial that Shopify has no
    opinion about, so it is preserved byte for byte. */
 async function writeCatalogue(products) {
-  const path = join(ROOT, 'assets/js/data.js');
+  const path = join(ROOT, 'assets/js/core/data.js');
   const src = await readFile(path, 'utf8');
 
   const startMark = '  var PRODUCTS = [';
@@ -272,7 +272,7 @@ try {
   if (!process.env.SHOPIFY_MOCK && (!cfg.domain || !cfg.token)) {
     console.error(
       '\n  No store configured.\n\n' +
-      '  Put your domain and Storefront token in assets/js/shopify-config.js,\n' +
+      '  Put your domain and Storefront token in assets/js/integrations/shopify-config.js,\n' +
       '  or set SHOPIFY_DOMAIN and SHOPIFY_STOREFRONT_TOKEN.\n\n' +
       '  See SHOPIFY.md for where to find them.\n');
     process.exit(1);
@@ -300,7 +300,7 @@ try {
      collection, but it gets no tile on the homepage, no category filter, no
      breadcrumb and no intro — which is worth shouting about now rather than
      discovering it from a customer. */
-  const known = (await readFile(join(ROOT, 'assets/js/data.js'), 'utf8'))
+  const known = (await readFile(join(ROOT, 'assets/js/core/data.js'), 'utf8'))
     .match(/slug: '([a-z]+)'/g)?.map((m) => m.slice(7, -1)) || [];
   const orphans = cats.filter((c) => !known.includes(c));
   if (orphans.length) {
