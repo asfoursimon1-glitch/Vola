@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Bias-cut denim column dress by VOLA">
+  <title>Bias-cut denim column dress by VOLA</title>
+  <defs>
+    <linearGradient id="ground" x1="0.1" y1="0" x2="0.7" y2="1">
+      <stop offset="0" stop-color="#26375A"/>
+      <stop offset="1" stop-color="#141D30"/>
+    </linearGradient>
+    <linearGradient id="key" x1="0.05" y1="0" x2="0.85" y2="0.9">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.20"/>
+      <stop offset="0.42" stop-color="#ffffff" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.22"/>
+    </linearGradient>
+    <pattern id="twill" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(-26)">
+      <path d="M0 0v7" stroke="#ffffff" stroke-opacity="0.07" stroke-width="2.2"/>
+      <path d="M3.5 0v7" stroke="#000000" stroke-opacity="0.07" stroke-width="1.8"/>
+    </pattern>
+    <radialGradient id="vig" cx="0.44" cy="0.36" r="0.82">
+      <stop offset="0.5" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.42"/>
+    </radialGradient>
+    <clipPath id="frame"><rect width="800" height="1000"/></clipPath>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#ground)"/>
+  <g clip-path="url(#frame)">
+    <path d="M-90.0 0 C-93.6 347.9 -95.7 500.4 -91.8 1000 L34.9 1000 C13.0 500.4 24.9 347.9 44.8 0 Z" fill="#334872"/>
+    <path d="M44.8 0 C24.9 347.9 13.0 500.4 34.9 1000" fill="none" stroke="#141D30" stroke-opacity="0.5" stroke-width="3.0"/>
+    <path d="M44.8 0 C83.8 346.5 107.3 718.5 64.3 1000 L203.4 1000 C212.9 718.5 207.7 346.5 199.0 0 Z" fill="#3a5381"/>
+    <path d="M199.0 0 C207.7 346.5 212.9 718.5 203.4 1000" fill="none" stroke="#141D30" stroke-opacity="0.5" stroke-width="2.5"/>
+    <path d="M199.0 0 C161.4 328.7 138.9 588.6 180.2 1000 L378.6 1000 C351.1 588.6 366.1 328.7 391.1 0 Z" fill="#344973"/>
+    <path d="M391.1 0 C366.1 328.7 351.1 588.6 378.6 1000" fill="none" stroke="#141D30" stroke-opacity="0.5" stroke-width="1.6"/>
+    <path d="M391.1 0 C347.2 283.1 320.9 616.4 369.1 1000 L577.8 1000 C575.3 616.4 576.7 283.1 579.0 0 Z" fill="#253558"/>
+    <path d="M579.0 0 C576.7 283.1 575.3 616.4 577.8 1000" fill="none" stroke="#141D30" stroke-opacity="0.5" stroke-width="1.2"/>
+    <path d="M579.0 0 C541.6 493.1 519.2 728.7 560.3 1000 L726.2 1000 C749.1 728.7 736.6 493.1 715.8 0 Z" fill="#2f436b"/>
+    <path d="M715.8 0 C736.6 493.1 749.1 728.7 726.2 1000" fill="none" stroke="#141D30" stroke-opacity="0.5" stroke-width="3.2"/>
+    <path d="M715.8 0 C702.0 491.7 693.7 630.1 708.9 1000 L896.0 1000 C909.2 630.1 902.0 491.7 890.0 0 Z" fill="#212f4e"/>
+    <path d="M890.0 0 C902.0 491.7 909.2 630.1 896.0 1000" fill="none" stroke="#141D30" stroke-opacity="0.5" stroke-width="1.7"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#twill)"/>
+  <rect width="800" height="1000" fill="url(#key)"/>
+  <rect width="800" height="1000" fill="url(#vig)"/>
+
+  <!-- selvedge edge -->
+  <rect x="215.9" y="0" width="16" height="1000" fill="#F3EEE3" fill-opacity="0.1"/>
+  <rect x="221.9" y="0" width="2.5" height="1000" fill="#D4B571" fill-opacity="0.8"/>
+
+  <text x="400" y="948" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif"
+        font-size="24" letter-spacing="15" fill="#ffffff" fill-opacity="0.42">VOL&#192;</text>
+</svg>

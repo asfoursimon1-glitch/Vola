@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1200" width="1920" height="1200"
+     role="img" aria-label="Cropped silhouette of a figure in a VOLA denim jacket and jeans">
+  <title>Cropped silhouette of a figure in a VOLA denim jacket and jeans</title>
+  <defs>
+    <linearGradient id="figure" x1="0.2" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#211F1C"/>
+      <stop offset="1" stop-color="#0C0B0A"/>
+    </linearGradient>
+    <pattern id="ftwill" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(-26)">
+      <path d="M0 0v7" stroke="#ffffff" stroke-opacity="0.06" stroke-width="2.2"/>
+      <path d="M3.5 0v7" stroke="#000000" stroke-opacity="0.08" stroke-width="1.8"/>
+    </pattern>
+    <clipPath id="figureClip"><path d="M1280.0 0.0 C1275.8 10.0 1265.0 38.3 1255.0 60.0 C1245.0 81.7 1237.5 101.7 1220.0 130.0 C1202.5 158.3 1157.5 196.7 1150.0 230.0 C1142.5 263.3 1166.7 301.7 1175.0 330.0 C1183.3 358.3 1187.5 378.3 1200.0 400.0 C1212.5 421.7 1246.3 426.7 1250.0 460.0 C1253.7 493.3 1229.7 543.3 1222.0 600.0 C1214.3 656.7 1209.7 733.3 1204.0 800.0 C1198.3 866.7 1192.8 933.3 1188.0 1000.0 C1183.2 1066.7 1177.2 1166.7 1175.0 1200.0 L1920.0 1200.0 L1920.0 0.0 Z"/></clipPath>
+    <linearGradient id="edgeLight" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <path d="M1280.0 0.0 C1275.8 10.0 1265.0 38.3 1255.0 60.0 C1245.0 81.7 1237.5 101.7 1220.0 130.0 C1202.5 158.3 1157.5 196.7 1150.0 230.0 C1142.5 263.3 1166.7 301.7 1175.0 330.0 C1183.3 358.3 1187.5 378.3 1200.0 400.0 C1212.5 421.7 1246.3 426.7 1250.0 460.0 C1253.7 493.3 1229.7 543.3 1222.0 600.0 C1214.3 656.7 1209.7 733.3 1204.0 800.0 C1198.3 866.7 1192.8 933.3 1188.0 1000.0 C1183.2 1066.7 1177.2 1166.7 1175.0 1200.0 L1920.0 1200.0 L1920.0 0.0 Z" fill="url(#figure)"/>
+  <rect width="1920" height="1200" fill="url(#ftwill)" clip-path="url(#figureClip)"/>
+
+  <!-- belt - deliberately NOT full width: on a narrow (mobile) crop, a
+       bar reaching the canvas edge would cross straight through whatever
+       text sits there. Containing it near the figure keeps that from
+       ever being possible, on any crop. -->
+  <path d="M1195,455 C1330,470 1450,477 1560,476 C1580,489 1580,490 1560,498 C1450,499 1325,494 1188,478 Z"
+        fill="#A37B3C" fill-opacity="0.9"/>
+  <!-- topstitch accents on the jean leg -->
+  <path d="M1215,560 C1205,720 1195,900 1182,1090" fill="none" stroke="#A37B3C"
+        stroke-opacity="0.55" stroke-width="2" stroke-dasharray="1 7" stroke-linecap="round"/>
+  <path d="M1650,520 C1660,700 1668,900 1672,1120" fill="none" stroke="#A37B3C"
+        stroke-opacity="0.3" stroke-width="2" stroke-dasharray="1 7" stroke-linecap="round"/>
+  <!-- collar notch -->
+  <path d="M1230,18 L1265,58 L1300,15" fill="none" stroke="#A37B3C" stroke-opacity="0.6" stroke-width="2.5"/>
+
+  <!-- rim light: the edge catching a single soft backlight, the one
+       deliberately "modern" cue that reads as a lighting decision rather
+       than a flat cutout -->
+  <path d="M1277.0 0.0 C1272.8 10.0 1262.0 38.3 1252.0 60.0 C1242.0 81.7 1234.5 101.7 1217.0 130.0 C1199.5 158.3 1154.5 196.7 1147.0 230.0 C1139.5 263.3 1163.7 301.7 1172.0 330.0 C1180.3 358.3 1184.5 378.3 1197.0 400.0 C1209.5 421.7 1243.3 426.7 1247.0 460.0 C1250.7 493.3 1226.7 543.3 1219.0 600.0 C1211.3 656.7 1206.7 733.3 1201.0 800.0" fill="none" stroke="url(#edgeLight)" stroke-width="7" stroke-linecap="round"/>
+</svg>

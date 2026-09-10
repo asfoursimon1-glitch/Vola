@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Stone-wash low boot by VOLA">
+  <title>Stone-wash low boot by VOLA</title>
+  <defs>
+    <linearGradient id="ground" x1="0.1" y1="0" x2="0.7" y2="1">
+      <stop offset="0" stop-color="#A69D8E"/>
+      <stop offset="1" stop-color="#7C7466"/>
+    </linearGradient>
+    <linearGradient id="key" x1="0.05" y1="0" x2="0.85" y2="0.9">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.20"/>
+      <stop offset="0.42" stop-color="#ffffff" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.22"/>
+    </linearGradient>
+    <pattern id="twill" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(-26)">
+      <path d="M0 0v7" stroke="#ffffff" stroke-opacity="0.07" stroke-width="2.2"/>
+      <path d="M3.5 0v7" stroke="#000000" stroke-opacity="0.07" stroke-width="1.8"/>
+    </pattern>
+    <radialGradient id="vig" cx="0.44" cy="0.36" r="0.82">
+      <stop offset="0.5" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.42"/>
+    </radialGradient>
+    <clipPath id="frame"><rect width="800" height="1000"/></clipPath>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#ground)"/>
+  <g clip-path="url(#frame)">
+    <path d="M-90.0 0 C-132.1 387.8 -157.3 621.9 -111.0 1000 L33.4 1000 C58.6 621.9 44.8 387.8 21.9 0 Z" fill="#b3ab9d"/>
+    <path d="M21.9 0 C44.8 387.8 58.6 621.9 33.4 1000" fill="none" stroke="#7C7466" stroke-opacity="0.5" stroke-width="2.6"/>
+    <path d="M21.9 0 C40.6 368.1 51.8 636.6 31.3 1000 L220.1 1000 C257.1 636.6 237.0 368.1 203.3 0 Z" fill="#bdb6a8"/>
+    <path d="M203.3 0 C237.0 368.1 257.1 636.6 220.1 1000" fill="none" stroke="#7C7466" stroke-opacity="0.5" stroke-width="1.9"/>
+    <path d="M203.3 0 C245.6 298.7 271.0 728.0 224.5 1000 L409.1 1000 C455.9 728.0 430.3 298.7 387.8 0 Z" fill="#aca394"/>
+    <path d="M387.8 0 C430.3 298.7 455.9 728.0 409.1 1000" fill="none" stroke="#7C7466" stroke-opacity="0.5" stroke-width="1.8"/>
+    <path d="M387.8 0 C424.1 386.5 445.8 568.3 405.9 1000 L552.7 1000 C573.4 568.3 562.1 386.5 543.4 0 Z" fill="#a09788"/>
+    <path d="M543.4 0 C562.1 386.5 573.4 568.3 552.7 1000" fill="none" stroke="#7C7466" stroke-opacity="0.5" stroke-width="2.4"/>
+    <path d="M543.4 0 C505.1 398.4 482.2 516.6 524.2 1000 L742.5 1000 C790.4 516.6 764.3 398.4 720.8 0 Z" fill="#aca394"/>
+    <path d="M720.8 0 C764.3 398.4 790.4 516.6 742.5 1000" fill="none" stroke="#7C7466" stroke-opacity="0.5" stroke-width="3.0"/>
+    <path d="M720.8 0 C738.7 481.8 749.4 488.8 729.7 1000 L872.1 1000 C832.7 488.8 854.2 481.8 890.0 0 Z" fill="#a19889"/>
+    <path d="M890.0 0 C854.2 481.8 832.7 488.8 872.1 1000" fill="none" stroke="#7C7466" stroke-opacity="0.5" stroke-width="1.8"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#twill)"/>
+  <rect width="800" height="1000" fill="url(#key)"/>
+  <rect width="800" height="1000" fill="url(#vig)"/>
+
+  <!-- selvedge edge -->
+  <rect x="412.4" y="0" width="16" height="1000" fill="#F3EEE3" fill-opacity="0.1"/>
+  <rect x="418.4" y="0" width="2.5" height="1000" fill="#F5F1E9" fill-opacity="0.8"/>
+
+  <text x="400" y="948" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif"
+        font-size="24" letter-spacing="15" fill="#ffffff" fill-opacity="0.42">VOL&#192;</text>
+</svg>

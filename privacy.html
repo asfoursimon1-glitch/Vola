@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy — VOLÀ</title>
+<meta name="description" content="What VOLÀ collects, where it goes and how long it stays — with the contents of your own browser storage listed live, and a control to erase any of it.">
+<meta name="theme-color" content="#161F33">
+<link rel="icon" href="assets/img/favicon.svg">
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/vola.css">
+</head>
+<body data-page="privacy">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="nav">
+  <p class="announce">Complimentary express shipping on orders over <span data-ship-free>$500</span></p>
+  <div class="wrap nav__inner">
+    <a class="brand" href="index.html" aria-label="VOLÀ, home">VOLÀ</a>
+    <nav class="nav__links" aria-label="Primary">
+      <a class="nav__link" data-nav="shop" href="shop.html">Collection</a>
+      <a class="nav__link" data-nav="fit" href="fit.html">Fit Studio</a>
+      <a class="nav__link" data-nav="mtm" href="made-to-measure.html">Made to Measure</a>
+      <a class="nav__link" data-nav="about" href="about.html">The Atelier</a>
+      <a class="nav__link" data-nav="contact" href="contact.html">Contact</a>
+    </nav>
+    <div class="nav__actions">
+      <a class="icon-btn" href="shop.html" aria-label="Search the collection">
+        <svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="116" cy="116" r="60"/><path d="M158 158l50 50"/></svg>
+      </a>
+      <a class="icon-btn" href="account.html" data-account aria-label="Your account">
+        <svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="128" cy="96" r="48"/><path d="M40 216a96 96 0 0 1 176 0"/></svg>
+        <span class="account-dot" data-account-dot hidden></span>
+      </a>
+      <button class="icon-btn" type="button" data-cart-open aria-expanded="false" aria-controls="cart-drawer">
+        <svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M56 72h144l16 144H40Z"/><path d="M92 72a36 36 0 0 1 72 0"/></svg>
+        <span class="cart-count" data-cart-count hidden>0</span>
+        <span class="sr-only" data-cart-label>Bag, empty</span>
+      </button>
+      <button class="icon-btn nav__burger" type="button" data-menu-open aria-expanded="false" aria-controls="mobile-menu">
+        <svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M40 72h176M40 128h176M40 184h176"/></svg>
+        <span class="sr-only">Open menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+  <div class="mobile-menu__head">
+    <span class="brand">VOLÀ</span>
+    <button class="icon-btn" type="button" data-close data-autofocus>
+      <svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M64 64l128 128M192 64L64 192"/></svg>
+      <span class="sr-only">Close menu</span>
+    </button>
+  </div>
+  <nav class="mobile-menu__body" aria-label="Mobile">
+    <a class="mobile-menu__link" href="shop.html">Collection</a>
+    <a class="mobile-menu__link" href="fit.html">Fit Studio</a>
+    <a class="mobile-menu__link" href="made-to-measure.html">Made to Measure</a>
+    <a class="mobile-menu__link" href="shop.html?c=jeans">Jeans</a>
+    <a class="mobile-menu__link" href="shop.html?c=corsets">Corsets</a>
+    <a class="mobile-menu__link" href="shop.html?c=dresses">Dresses</a>
+    <a class="mobile-menu__link" href="shop.html?c=jackets">Jackets</a>
+    <a class="mobile-menu__link" href="shop.html?c=handbags">Handbags</a>
+    <a class="mobile-menu__link" href="shop.html?c=heels">Heels</a>
+    <a class="mobile-menu__link" href="about.html">The Atelier</a>
+    <a class="mobile-menu__link" href="help.html">Help Centre</a>
+    <a class="mobile-menu__link" href="care.html">Care &amp; Repairs</a>
+    <a class="mobile-menu__link" href="traceability.html">Traceability</a>
+    <a class="mobile-menu__link" href="track.html">Track an order</a>
+    <a class="mobile-menu__link" href="account.html">Your account</a>
+    <a class="mobile-menu__link" href="contact.html">Contact</a>
+  </nav>
+</div>
+
+<main id="main" tabindex="-1">
+
+  <div class="page-head">
+    <div class="wrap page-head__inner">
+      <nav aria-label="Breadcrumb">
+        <ol class="crumbs">
+          <li><a href="index.html">VOLÀ</a></li>
+          <li aria-current="page">Privacy</li>
+        </ol>
+      </nav>
+      <h1 class="display display--xl">Privacy</h1>
+      <p class="lede">What this site collects, where it goes, how long it stays, and how to
+        make us delete it. Written to be read rather than to be survived.</p>
+      <!-- A policy date is a fact about a document, not about the catalogue,
+           so it is the one thing on this page that is written by hand. Bump it
+           whenever the text below changes. -->
+      <p class="page-head__prices"><span class="floor"><span class="floor__label">Last updated</span>
+        <span class="floor__price num">10 September 2026</span></span></p>
+    </div>
+  </div>
+
+  <!-- Draft banner. Removed when a lawyer has signed the text off and the
+       blanks below are filled — same purpose as the banners on the account
+       and tracking pages. -->
+  <div class="devnote" id="draft-note">
+    <div class="wrap devnote__inner">
+      <svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="128" cy="128" r="88"/><path d="M128 80v56M128 172h.1"/></svg>
+      <p><strong>This is a draft, not legal advice.</strong> The technical sections are
+        generated from what this site actually does and are accurate. The identifying
+        details of the company are not filled in, and the text has not been reviewed by
+        anyone qualified to review it. <a href="#blanks">What is still missing</a>.</p>
+    </div>
+  </div>
+
+  <div class="wrap section--tight" style="padding-block:var(--space-7) var(--space-9)">
+    <div class="shop-layout">
+
+      <!-- ─────────────────────────────────────────── CONTENTS ─── -->
+      <nav class="helpnav" id="privacy-nav" aria-labelledby="toc-h">
+        <h2 class="filter-group__title" id="toc-h">On this page</h2>
+        <ul class="helpnav__list" id="toc"></ul>
+      </nav>
+
+      <div class="prose" id="privacy-body">
+
+        <!-- ─────────────────────────────────────── 1. WHO ─── -->
+        <section aria-labelledby="who-h" id="who">
+          <h2 class="display display--lg" id="who-h">Who is responsible</h2>
+          <p>The data controller is the maison itself — the business you are buying from,
+            not a third party acting for it.</p>
+          <div id="controller"></div>
+
+          <div class="callout" id="blanks">
+            <h3>Still to be filled in</h3>
+            <p>These cannot be derived from anything on this site, and a policy that
+              invented them would be worse than one that admits the gap:</p>
+            <ul id="blanks-list"></ul>
+          </div>
+        </section>
+
+        <!-- ─────────────────────────────── 2. IN YOUR BROWSER ─── -->
+        <section aria-labelledby="local-h" id="local">
+          <h2 class="display display--lg" id="local-h">What is stored in your browser</h2>
+          <!-- filled by privacy.js: whether anything on this site needs consent
+               is a fact about the config, not a sentence to maintain by hand -->
+          <p id="cookie-claim"></p>
+          <p>This is the live contents of that storage, read from this browser as the page
+            loaded. It is not an example.</p>
+          <div id="local-store"></div>
+          <p class="field__hint" style="text-transform:none;letter-spacing:0">Erasing the
+            bag empties it. Erasing the session signs you out. Erasing a draft loses an
+            unsent message.</p>
+
+          <!-- Filled by privacy.js either with the reader's consent choices
+               and a control to change them, or — as today — with why they
+               were never asked. Omitting the subject entirely would leave
+               them unable to tell a site with nothing to ask from one that
+               forgot to. -->
+          <div class="callout" id="consent-control"></div>
+        </section>
+
+        <!-- ────────────────────────────── 3. WHAT LEAVES ─── -->
+        <section aria-labelledby="third-h" id="third">
+          <h2 class="display display--lg" id="third-h">What leaves your browser, and to whom</h2>
+          <p>Every service this site can talk to is listed below, with whether it is
+            currently connected. A service that is not connected receives nothing —
+            the site does not call it at all.</p>
+          <div id="processors"></div>
+        </section>
+
+        <!-- ────────────────────────────── 4. WHAT WE COLLECT ─── -->
+        <section aria-labelledby="collect-h" id="collect">
+          <h2 class="display display--lg" id="collect-h">What we collect, and why</h2>
+          <p>Only when you do one of these things. Browsing the collection collects
+            nothing.</p>
+          <div id="purposes"></div>
+        </section>
+
+        <!-- ──────────────────────────────────── 5. SIZES ─── -->
+        <section aria-labelledby="sizes-h" id="sizes">
+          <h2 class="display display--lg" id="sizes-h">Your measurements</h2>
+          <p>The Fit Studio asks for your height, weight, waist and shoe size so it can
+            recommend a size. This is the most personal thing this site handles, so it is
+            handled differently from everything else:</p>
+          <ul>
+            <li><strong>It stays in your browser.</strong> The profile is saved on your
+              device and used there. Nothing about your body is sent to us by saving it.</li>
+            <li><strong>It is never attached to a message unless you tick a box.</strong>
+              The contact and commission forms offer to include your saved sizes. The box
+              is off by default, and it prints the exact line that would be sent before you
+              tick it.</li>
+            <li><strong>An order carries only what it needs.</strong> If you have a profile
+              saved, the sizes line travels with a checkout as a note to the atelier — the
+              size, not the measurements it was derived from.</li>
+            <li><strong>Erase it in one click</strong>, in the section above or from the Fit
+              Studio itself.</li>
+          </ul>
+          <p>Under the GDPR, measurements of your body are ordinary personal data rather
+            than a special category — but they are the sort of thing people are entitled to
+            feel particular about, and the design treats them that way.</p>
+        </section>
+
+        <!-- ──────────────────────────────── 6. LEGAL BASES ─── -->
+        <section aria-labelledby="basis-h" id="basis">
+          <h2 class="display display--lg" id="basis-h">Our legal bases</h2>
+          <!-- the wrapper is not decoration: without it this table is the one
+               thing on the page wide enough to push the whole layout sideways
+               on a phone -->
+          <div class="tablewrap">
+          <table class="sizetable">
+            <caption class="sr-only">The lawful basis for each kind of processing</caption>
+            <thead><tr><th scope="col">What</th><th scope="col">Basis</th><th scope="col">Meaning</th></tr></thead>
+            <tbody id="basis-rows">
+              <tr><th scope="row">Fulfilling an order</th><td>Contract</td>
+                <td>We cannot send you a coat without an address.</td></tr>
+              <tr><th scope="row">Answering a message</th><td>Legitimate interest</td>
+                <td>You wrote to us; replying is the obvious expectation.</td></tr>
+              <tr><th scope="row">The newsletter</th><td>Consent</td>
+                <td>Given by subscribing, withdrawn by one click in any letter.</td></tr>
+              <tr><th scope="row">Sending your saved sizes</th><td>Consent</td>
+                <td>The tick box, off by default.</td></tr>
+              <tr><th scope="row">Keeping order records</th><td>Legal obligation</td>
+                <td>Tax and accounting law requires it for a fixed period.</td></tr>
+              <tr><th scope="row">Storage in your browser</th><td>Strictly necessary</td>
+                <td>A bag that forgets its contents is not a shop.
+                  <span id="banner-claim"></span></td></tr>
+            </tbody>
+          </table>
+          </div>
+        </section>
+
+        <!-- ─────────────────────────────────── 7. HOW LONG ─── -->
+        <section aria-labelledby="keep-h" id="keep">
+          <h2 class="display display--lg" id="keep-h">How long we keep it</h2>
+          <div id="retention"></div>
+        </section>
+
+        <!-- ───────────────────────────────────── 8. RIGHTS ─── -->
+        <section aria-labelledby="rights-h" id="rights">
+          <h2 class="display display--lg" id="rights-h">Your rights</h2>
+          <p>These are yours under the GDPR whether or not a policy lists them. Exercising
+            any of them is free, and we will answer within one month.</p>
+          <div id="rights-list"></div>
+          <div class="callout" id="how-to-ask">
+            <h3>How to ask</h3>
+            <p id="rights-route"></p>
+            <p>We will not ask you to explain why. If you are not satisfied with our
+              answer, you may complain to your national data protection authority — in
+              Italy, the <em>Garante per la protezione dei dati personali</em>.</p>
+          </div>
+        </section>
+
+        <!-- ────────────────────────────────── 9. TRANSFERS ─── -->
+        <section aria-labelledby="transfer-h" id="transfer">
+          <h2 class="display display--lg" id="transfer-h">Transfers outside the EEA</h2>
+          <p>Several of the services listed above are American companies. Where your data
+            reaches one of them, it leaves the European Economic Area. Each is relied upon
+            under the EU–US Data Privacy Framework or the European Commission's standard
+            contractual clauses; which one applies to which service has to be confirmed
+            against each provider's current terms rather than asserted here.</p>
+          <p>The one avoidable transfer on this site is named in the table above: the
+            fonts.</p>
+        </section>
+
+        <!-- ─────────────────────────────────── 10. CHANGES ─── -->
+        <section aria-labelledby="changes-h" id="changes">
+          <h2 class="display display--lg" id="changes-h">Changes</h2>
+          <p>When this text changes, the date at the top changes with it. If a change
+            affects what we do with something you have already given us, we will write to
+            you rather than rely on you re-reading this page.</p>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <span class="brand">VOLÀ</span>
+        <p style="color:#C4BDB2;font-size:.9375rem;max-width:34ch">A denim couture maison. <span data-house="cityEn">Florence</span>, since <span data-house="founded">2016</span>.</p>
+        <form class="newsletter" data-newsletter="Footer — trace" novalidate>
+          <label class="sr-only" for="nl-email">Email address for the VOLÀ newsletter</label>
+          <input class="input" id="nl-email" name="email" type="email" autocomplete="email" placeholder="Email address" required aria-describedby="nl-note">
+          <button class="btn btn--accent" type="submit">Join</button>
+        </form>
+        <p class="newsletter__note" id="nl-note">A letter or two a month — new cloth, atelier openings, nothing else. We never pass your address on, and every letter unsubscribes in one click. <a href="privacy.html">How we handle it</a>.</p>
+      </div>
+      <nav aria-labelledby="f-shop"><h3 id="f-shop">Collection</h3>
+        <ul class="footer__list">
+          <li><a href="shop.html?c=jeans">Jeans</a></li>
+          <li><a href="shop.html?c=shirts">Shirts</a></li>
+          <li><a href="shop.html?c=corsets">Corsets</a></li>
+          <li><a href="shop.html?c=jackets">Jackets</a></li>
+          <li><a href="shop.html?c=dresses">Dresses</a></li>
+        </ul></nav>
+      <nav aria-labelledby="f-acc"><h3 id="f-acc">Accessories</h3>
+        <ul class="footer__list">
+          <li><a href="shop.html?c=belts">Belts</a></li>
+          <li><a href="shop.html?c=handbags">Handbags</a></li>
+          <li><a href="shop.html?c=shoes">Shoes</a></li>
+          <li><a href="shop.html?c=heels">Heels</a></li>
+        </ul></nav>
+      <nav aria-labelledby="f-care"><h3 id="f-care">Client services</h3>
+        <ul class="footer__list">
+          <li><a href="track.html">Track an order</a></li>
+          <li><a href="help.html">Help centre</a></li>
+          <li><a href="made-to-measure.html">Made to measure</a></li>
+          <li><a href="care.html">Care &amp; repairs</a></li>
+          <li><a href="traceability.html">Traceability</a></li>
+          <li><a href="reviews.html">Client reviews</a></li>
+          <li><a href="contact.html">Contact the maison</a></li>
+          <li><a href="fit.html">Size guide</a></li>
+        </ul></nav>
+    </div>
+    <div class="footer__bottom">
+      <p>&copy; <span data-year>2026</span> VOLÀ Maison S.r.l. — <span data-house="street">Via dei Fossi 14</span>, <span data-house="cityEn">Florence</span></p>
+      <nav class="footer__legal" aria-label="Legal"><a href="privacy.html">Privacy</a></nav>
+      <div class="social">
+        <a href="https://instagram.com" rel="noopener noreferrer nofollow" target="_blank" aria-label="VOLÀ on Instagram"><svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round" aria-hidden="true" focusable="false"><rect x="40" y="40" width="176" height="176" rx="44"/><circle cx="128" cy="128" r="40"/><path d="M180 76h.1"/></svg></a>
+        <a href="https://pinterest.com" rel="noopener noreferrer nofollow" target="_blank" aria-label="VOLÀ on Pinterest"><svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="128" cy="128" r="96"/><path d="M120 152l-16 60M104 168c-8-12-8-32 4-48 14-18 44-20 58-6 16 16 10 52-10 62-12 6-26 2-32-8"/></svg></a>
+        <a href="https://tiktok.com" rel="noopener noreferrer nofollow" target="_blank" aria-label="VOLÀ on TikTok"><svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M168 40c4 32 24 50 56 52v40c-22 2-42-6-56-18v58a66 66 0 1 1-66-66c4 0 8 0 12 1v42a26 26 0 1 0 18 25V40Z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" hidden>
+  <div class="drawer__head">
+    <h2 class="drawer__title" id="drawer-title">Your bag</h2>
+    <button class="icon-btn" type="button" data-close data-autofocus>
+      <svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M64 64l128 128M192 64L64 192"/></svg>
+      <span class="sr-only">Close bag</span>
+    </button>
+  </div>
+  <div class="drawer__body" data-drawer-body></div>
+  <div class="drawer__foot" data-drawer-foot hidden></div>
+</aside>
+
+<script src="assets/js/shopify-config.js"></script>
+<script src="assets/js/consent.js"></script>
+<script src="assets/js/analytics.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shopify.js"></script>
+<script src="assets/js/newsletter.js"></script>
+<script src="assets/js/motion.js"></script>
+<script src="assets/js/privacy.js"></script>
+</body>
+</html>

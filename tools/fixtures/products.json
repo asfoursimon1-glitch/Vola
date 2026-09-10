@@ -1,0 +1,101 @@
+{
+  "data": {
+    "products": {
+      "pageInfo": { "hasNextPage": false, "endCursor": null },
+      "edges": [
+        {
+          "node": {
+            "id": "gid://shopify/Product/1",
+            "handle": "sculpt-raw-jean",
+            "title": "Sculpt Raw Selvedge Jean",
+            "productType": "Jeans",
+            "description": "A moulded high-rise cut in 14oz Japanese selvedge, wet-set on the stand so the leg holds its own architecture.\nSecond paragraph ignored.",
+            "tags": ["new", "signature"],
+            "featuredImage": { "url": "https://cdn.shopify.com/sculpt-1.jpg", "altText": "Sculpted raw-denim trouser by VOLÀ, deep indigo" },
+            "images": { "edges": [
+              { "node": { "url": "https://cdn.shopify.com/sculpt-1.jpg", "altText": "a" } },
+              { "node": { "url": "https://cdn.shopify.com/sculpt-2.jpg", "altText": "b" } }
+            ] },
+            "options": [{ "name": "Size", "values": ["24", "25", "26"] }, { "name": "Colour", "values": ["Raw Indigo", "Noir"] }],
+            "metafields": [
+              { "key": "denim_oz", "value": "14" },
+              { "key": "denim_hand", "value": "rigid" },
+              { "key": "denim_fade", "value": "high" },
+              { "key": "denim_note", "value": "Unsanforised and unwashed. Expect roughly 2cm of shrink at the first wash." },
+              { "key": "mill", "value": "Kaihara" },
+              { "key": "mill_city", "value": "Hiroshima" },
+              { "key": "mill_country", "value": "Japan" },
+              { "key": "mill_since", "value": "1893" },
+              { "key": "atelier_hours", "value": "11" },
+              { "key": "atelier_hands", "value": "3" },
+              { "key": "fit_cut", "value": "High-rise, moulded through the hip, tapered from the knee" },
+              { "key": "fit_advice", "value": "up" },
+              { "key": "fit_model", "value": "Model is 178cm and wears a 26" },
+              { "key": "build", "value": "core" },
+              { "key": "composition", "value": "100% Japanese cotton selvedge denim, 14oz" },
+              { "key": "care", "value": "[\"Cold wash inside out, or spot clean\",\"Line dry away from direct sun\"]" },
+              { "key": "flag", "value": "Signature" },
+              { "key": "colour_hex", "value": "{\"Raw Indigo\":\"#243352\",\"Noir\":\"#26241F\"}" },
+              null
+            ],
+            "variants": { "edges": [
+              { "node": { "id": "gid://shopify/ProductVariant/11", "title": "24 / Raw Indigo", "availableForSale": false, "price": { "amount": "690.0", "currencyCode": "EUR" }, "selectedOptions": [{ "name": "Size", "value": "24" }, { "name": "Colour", "value": "Raw Indigo" }] } },
+              { "node": { "id": "gid://shopify/ProductVariant/12", "title": "24 / Noir", "availableForSale": false, "price": { "amount": "690.0", "currencyCode": "EUR" }, "selectedOptions": [{ "name": "Size", "value": "24" }, { "name": "Colour", "value": "Noir" }] } },
+              { "node": { "id": "gid://shopify/ProductVariant/13", "title": "25 / Raw Indigo", "availableForSale": true, "price": { "amount": "690.0", "currencyCode": "EUR" }, "selectedOptions": [{ "name": "Size", "value": "25" }, { "name": "Colour", "value": "Raw Indigo" }] } },
+              { "node": { "id": "gid://shopify/ProductVariant/14", "title": "26 / Raw Indigo", "availableForSale": true, "price": { "amount": "690.0", "currencyCode": "EUR" }, "selectedOptions": [{ "name": "Size", "value": "26" }, { "name": "Colour", "value": "Raw Indigo" }] } }
+            ] }
+          }
+        },
+        {
+          "node": {
+            "id": "gid://shopify/Product/2",
+            "handle": "cinch-corset",
+            "title": "Cinch Boned Denim Corset",
+            "productType": "Corsets",
+            "description": "Twelve spiral-steel bones between denim and silk.",
+            "tags": ["atelier"],
+            "featuredImage": { "url": "https://cdn.shopify.com/corset-1.jpg", "altText": "Boned indigo denim corset" },
+            "images": { "edges": [{ "node": { "url": "https://cdn.shopify.com/corset-1.jpg", "altText": "a" } }] },
+            "options": [{ "name": "Size", "values": ["S", "M"] }],
+            "metafields": [
+              { "key": "denim_oz", "value": "12" },
+              { "key": "denim_hand", "value": "rigid" },
+              { "key": "denim_fade", "value": "low" },
+              { "key": "mill", "value": "Candiani" },
+              { "key": "mill_city", "value": "Milan" },
+              { "key": "mill_country", "value": "Italy" },
+              { "key": "mill_since", "value": "1938" },
+              { "key": "atelier_hours", "value": "26" },
+              { "key": "atelier_hands", "value": "3" },
+              { "key": "edition", "value": "Made to order" },
+              { "key": "build", "value": "atelier" },
+              { "key": "fit_advice", "value": "up" },
+              { "key": "composition", "value": "Denim shell 12oz, silk charmeuse lining, spiral steel boning" }
+            ],
+            "variants": { "edges": [
+              { "node": { "id": "gid://shopify/ProductVariant/21", "title": "S", "availableForSale": true, "price": { "amount": "890.0", "currencyCode": "EUR" }, "selectedOptions": [{ "name": "Size", "value": "S" }] } },
+              { "node": { "id": "gid://shopify/ProductVariant/22", "title": "M", "availableForSale": true, "price": { "amount": "890.0", "currencyCode": "EUR" }, "selectedOptions": [{ "name": "Size", "value": "M" }] } }
+            ] }
+          }
+        },
+        {
+          "node": {
+            "id": "gid://shopify/Product/3",
+            "handle": "mystery-scarf",
+            "title": "Unmapped Scarf",
+            "productType": "Scarves",
+            "description": "A product type the site has no category for.",
+            "tags": [],
+            "featuredImage": { "url": "https://cdn.shopify.com/scarf.jpg", "altText": "scarf" },
+            "images": { "edges": [] },
+            "options": [{ "name": "Title", "values": ["Default Title"] }],
+            "metafields": [null],
+            "variants": { "edges": [
+              { "node": { "id": "gid://shopify/ProductVariant/31", "title": "Default Title", "availableForSale": true, "price": { "amount": "180.0", "currencyCode": "EUR" }, "selectedOptions": [{ "name": "Title", "value": "Default Title" }] } }
+            ] }
+          }
+        }
+      ]
+    }
+  }
+}

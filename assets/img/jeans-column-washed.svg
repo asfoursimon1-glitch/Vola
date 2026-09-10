@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Wide column jean in washed indigo by VOLA">
+  <title>Wide column jean in washed indigo by VOLA</title>
+  <defs>
+    <linearGradient id="ground" x1="0.1" y1="0" x2="0.7" y2="1">
+      <stop offset="0" stop-color="#71879F"/>
+      <stop offset="1" stop-color="#4A607F"/>
+    </linearGradient>
+    <linearGradient id="key" x1="0.05" y1="0" x2="0.85" y2="0.9">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.20"/>
+      <stop offset="0.42" stop-color="#ffffff" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.22"/>
+    </linearGradient>
+    <pattern id="twill" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(-26)">
+      <path d="M0 0v7" stroke="#ffffff" stroke-opacity="0.07" stroke-width="2.2"/>
+      <path d="M3.5 0v7" stroke="#000000" stroke-opacity="0.07" stroke-width="1.8"/>
+    </pattern>
+    <radialGradient id="vig" cx="0.44" cy="0.36" r="0.82">
+      <stop offset="0.5" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.42"/>
+    </radialGradient>
+    <clipPath id="frame"><rect width="800" height="1000"/></clipPath>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#ground)"/>
+  <g clip-path="url(#frame)">
+    <path d="M-90.0 0 C-61.3 288.3 -44.1 647.1 -75.7 1000 L7.8 1000 C19.7 647.1 13.2 288.3 2.3 0 Z" fill="#7e93aa"/>
+    <path d="M2.3 0 C13.2 288.3 19.7 647.1 7.8 1000" fill="none" stroke="#4A607F" stroke-opacity="0.5" stroke-width="1.7"/>
+    <path d="M2.3 0 C-32.6 318.5 -53.6 739.3 -15.1 1000 L132.3 1000 C83.0 739.3 109.9 318.5 154.7 0 Z" fill="#92a6bb"/>
+    <path d="M154.7 0 C109.9 318.5 83.0 739.3 132.3 1000" fill="none" stroke="#4A607F" stroke-opacity="0.5" stroke-width="1.6"/>
+    <path d="M154.7 0 C129.6 311.1 114.5 609.4 142.1 1000 L253.1 1000 C236.1 609.4 245.4 311.1 260.8 0 Z" fill="#8498af"/>
+    <path d="M260.8 0 C245.4 311.1 236.1 609.4 253.1 1000" fill="none" stroke="#4A607F" stroke-opacity="0.5" stroke-width="2.5"/>
+    <path d="M260.8 0 C231.5 488.2 213.9 644.1 246.1 1000 L391.4 1000 C364.2 644.1 379.0 488.2 403.8 0 Z" fill="#7a90a7"/>
+    <path d="M403.8 0 C379.0 488.2 364.2 644.1 391.4 1000" fill="none" stroke="#4A607F" stroke-opacity="0.5" stroke-width="1.3"/>
+    <path d="M403.8 0 C415.8 460.4 423.0 639.4 409.8 1000 L548.0 1000 C582.4 639.4 563.7 460.4 532.4 0 Z" fill="#90a4b9"/>
+    <path d="M532.4 0 C563.7 460.4 582.4 639.4 548.0 1000" fill="none" stroke="#4A607F" stroke-opacity="0.5" stroke-width="2.3"/>
+    <path d="M532.4 0 C517.1 368.5 508.0 681.5 524.8 1000 L639.5 1000 C638.1 681.5 638.9 368.5 640.1 0 Z" fill="#7d92a9"/>
+    <path d="M640.1 0 C638.9 368.5 638.1 681.5 639.5 1000" fill="none" stroke="#4A607F" stroke-opacity="0.5" stroke-width="1.2"/>
+    <path d="M640.1 0 C612.9 348.3 596.6 531.4 626.5 1000 L732.1 1000 C717.7 531.4 725.5 348.3 738.6 0 Z" fill="#627892"/>
+    <path d="M738.6 0 C725.5 348.3 717.7 531.4 732.1 1000" fill="none" stroke="#4A607F" stroke-opacity="0.5" stroke-width="2.9"/>
+    <path d="M738.6 0 C737.5 296.0 736.8 669.4 738.0 1000 L870.7 1000 C828.2 669.4 851.4 296.0 890.0 0 Z" fill="#607691"/>
+    <path d="M890.0 0 C851.4 296.0 828.2 669.4 870.7 1000" fill="none" stroke="#4A607F" stroke-opacity="0.5" stroke-width="3.3"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#twill)"/>
+  <rect width="800" height="1000" fill="url(#key)"/>
+  <rect width="800" height="1000" fill="url(#vig)"/>
+
+  <!-- selvedge edge -->
+  <rect x="256.5" y="0" width="16" height="1000" fill="#F3EEE3" fill-opacity="0.1"/>
+  <rect x="262.5" y="0" width="2.5" height="1000" fill="#F7F4EE" fill-opacity="0.8"/>
+
+  <text x="400" y="948" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif"
+        font-size="24" letter-spacing="15" fill="#ffffff" fill-opacity="0.42">VOL&#192;</text>
+</svg>

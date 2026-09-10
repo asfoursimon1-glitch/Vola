@@ -1,0 +1,8 @@
+# Claude Code local session state — permissions granted in this session,
+# not project configuration. .claude/launch.json (the dev server config) is
+# shared and stays tracked.
+.claude/settings.local.json
+
+# OS noise
+.DS_Store
+Thumbs.db

@@ -1,0 +1,149 @@
+{
+  "_comment": [
+    "A recorded Judge.me /api/v1/reviews payload, trimmed to the fields the",
+    "mapper reads, and deliberately messy. It exercises every branch:",
+    "  · a complete review, matched by handle, all three questions answered",
+    "  · a review whose product_handle is missing, matched on product_title",
+    "  · custom_form_answers in the older shape (question.title, not cf_question)",
+    "  · a fit answer that matches nothing in fitAnswers  → counted as unanswered",
+    "  · an owned answer in prose  → parsed to months",
+    "  · a review with no custom answers at all  → prints, counts towards the",
+    "    average, contributes nothing to the true-to-size figure",
+    "  · an unverified review  → no 'verified purchase' badge",
+    "  · a spam review and an unpublished one  → dropped",
+    "  · a review for a piece this catalogue does not sell  → warned and dropped",
+    "Run it with:  JUDGEME_MOCK=tools/fixtures/judgeme.json node tools/judgeme-sync.mjs --dry"
+  ],
+  "current_page": 1,
+  "per_page": 100,
+  "reviews": [
+    {
+      "id": 811001,
+      "title": "Worth the six months of discomfort",
+      "body": "Unwearable for the first fortnight and then suddenly the best thing I own. The fades at the hip are exactly where I sit.",
+      "rating": 5,
+      "product_external_id": 7712345678901,
+      "product_title": "Sculpt Raw Jean",
+      "product_handle": "sculpt-raw-jean",
+      "reviewer": { "name": "Marguerite D.", "email": "m@example.com" },
+      "source": "web",
+      "curated": "ok",
+      "published": true,
+      "hidden": false,
+      "verified": "buyer",
+      "created_at": "2026-03-04T09:12:44.000Z",
+      "custom_form_answers": [
+        { "id": 1, "value": "Ran small", "cf_question": { "id": 11, "title": "How did it fit?" } },
+        { "id": 2, "value": "26", "cf_question": { "id": 12, "title": "What size did you take?" } },
+        { "id": 3, "value": "14 months", "cf_question": { "id": 13, "title": "How long have you owned it?" } }
+      ]
+    },
+    {
+      "id": 811002,
+      "title": "One unbroken line, as promised",
+      "body": "The stone wash is soft without being limp. It moves with you rather than against you.",
+      "rating": 5,
+      "product_external_id": 7712345678902,
+      "product_title": "Column Wide Jean",
+      "product_handle": null,
+      "reviewer": { "name": "Rae M." },
+      "curated": "ok",
+      "published": true,
+      "verified": "buyer",
+      "created_at": "2026-04-22T18:03:00.000Z",
+      "custom_form_answers": [
+        { "id": 4, "value": "True to size", "question": { "id": 11, "title": "How did it fit?" } },
+        { "id": 5, "value": "27", "question": { "id": 12, "title": "What size did you take?" } },
+        { "id": 6, "value": "just over a year", "question": { "id": 13, "title": "How long have you owned it?" } }
+      ]
+    },
+    {
+      "id": 811003,
+      "title": "The collar is the whole thing",
+      "body": "It stands on its own like a jacket collar. Deliberately oversized.",
+      "rating": 5,
+      "product_handle": "atelier-shirt",
+      "product_title": "Atelier Shirt",
+      "reviewer": { "name": "Nadia F." },
+      "curated": "ok",
+      "published": true,
+      "verified": "buyer",
+      "created_at": "2026-05-05T11:40:12.000Z",
+      "custom_form_answers": [
+        { "id": 7, "value": "Generous", "cf_question": { "title": "How did it fit?" } },
+        { "id": 8, "value": "S", "cf_question": { "title": "What size did you take?" } },
+        { "id": 9, "value": "a few weeks", "cf_question": { "title": "How long have you owned it?" } }
+      ]
+    },
+    {
+      "id": 811004,
+      "title": "Beautiful, but be honest with yourself about raw",
+      "body": "The cloth is superb and the finishing is better than anything at this price. If you are not prepared to wear something rigid for a month, buy the washed one.",
+      "rating": 4,
+      "product_handle": "sculpt-raw-jean",
+      "product_title": "Sculpt Raw Jean",
+      "reviewer": { "name": "Tomas R." },
+      "curated": "ok",
+      "published": true,
+      "verified": "not_verified",
+      "created_at": "2026-06-30T07:55:00.000Z",
+      "custom_form_answers": []
+    },
+    {
+      "id": 811005,
+      "title": "Extraordinary object, difficult purchase",
+      "body": "Spot clean only is a real constraint and I did not read it carefully enough before ordering. The making is not in question.",
+      "rating": 3,
+      "product_handle": "cinch-corset",
+      "product_title": "Cinch Corset",
+      "reviewer": { "name": "Petra Z." },
+      "curated": "ok",
+      "published": true,
+      "verified": "buyer",
+      "created_at": "2026-08-03T14:22:10.000Z",
+      "custom_form_answers": [
+        { "id": 10, "value": "ran small", "cf_question": { "title": "How did it fit?" } },
+        { "id": 11, "value": "S", "cf_question": { "title": "What size did you take?" } },
+        { "id": 12, "value": "1 month", "cf_question": { "title": "How long have you owned it?" } }
+      ]
+    },
+    {
+      "id": 811006,
+      "title": "CHEAP WATCHES CLICK HERE",
+      "body": "http://example.invalid/spam",
+      "rating": 5,
+      "product_handle": "sculpt-raw-jean",
+      "curated": "spam",
+      "published": true,
+      "verified": "not_verified",
+      "created_at": "2026-08-11T02:00:00.000Z",
+      "custom_form_answers": []
+    },
+    {
+      "id": 811007,
+      "title": "Awaiting moderation",
+      "body": "This one has not been approved in the Judge.me admin yet and must not appear on the site.",
+      "rating": 2,
+      "product_handle": "atelier-shirt",
+      "curated": "ok",
+      "published": false,
+      "verified": "buyer",
+      "created_at": "2026-09-01T10:00:00.000Z",
+      "custom_form_answers": []
+    },
+    {
+      "id": 811008,
+      "title": "Lovely scarf",
+      "body": "For a piece that is in Judge.me but not in this catalogue — the sync should warn and skip it rather than write a review nobody can click through to.",
+      "rating": 5,
+      "product_handle": "silk-scarf-oyster",
+      "product_title": "Silk Scarf, Oyster",
+      "reviewer": { "name": "Ingrid H." },
+      "curated": "ok",
+      "published": true,
+      "verified": "buyer",
+      "created_at": "2026-07-14T16:30:00.000Z",
+      "custom_form_answers": []
+    }
+  ]
+}
