@@ -42,7 +42,7 @@
 
   window.VOLA.shopifyConfig = {
     /* your-store.myshopify.com — NOT your custom domain */
-    domain: '13nc6e-mv.myshopify.com',
+    domain: 'vola-fashion.myshopify.com',
 
     /* Storefront API public access token */
     storefrontToken: 'ca0138b1c0fe203f69c082c9db3f7eae',
