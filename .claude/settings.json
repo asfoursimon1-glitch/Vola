@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(node --check:*)",
+      "Bash(node tools/shopify-sync.mjs --dry:*)",
+      "Bash(node tools/judgeme-sync.mjs --dry:*)",
+      "Bash(node tools/fonts-fetch.mjs --dry:*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)",
+      "Edit(./assets/css/fonts.css)",
+      "Edit(./assets/img/*.svg)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/no-shell-eval.mjs"
+          }
+        ]
+      }
+    ]
+  }
+}

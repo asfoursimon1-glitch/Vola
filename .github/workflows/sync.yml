@@ -1,0 +1,83 @@
+# VOLÀ — the catalogue and reviews sync, on a schedule.
+#
+# Tier two of the boundary in CLAUDE.md: this does not ship to a browser, it
+# *produces* what ships. Credentials come from Actions secrets and never from
+# a file in this repository, which GitHub Pages serves publicly.
+#
+# DISABLED until the Shopify catalogue is real — `schedule` is commented out,
+# so today it runs only when you press the button. Turn the schedule on once
+# products are no longer placeholder; a nightly sync against a catalogue of
+# six test pieces would just commit noise.
+#
+# Secrets to add first (Settings → Secrets and variables → Actions):
+#   JUDGEME_TOKEN        private — the reason reviews sync at build time
+#   JUDGEME_SHOP_DOMAIN  public, but kept alongside its token
+#
+# The Shopify Storefront token is public by design and already lives in
+# assets/js/integrations/shopify-config.js. It does not belong in secrets.
+
+name: Sync catalogue and reviews
+
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: '0 3 * * *'   # 03:00 UTC daily
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      # No install step and no cache: these tools have no dependencies, and
+      # keeping it that way is a house rule.
+
+      - name: Sync the Shopify catalogue
+        run: node tools/shopify-sync.mjs
+
+      - name: Sync Judge.me reviews
+        env:
+          JUDGEME_TOKEN: ${{ secrets.JUDGEME_TOKEN }}
+          JUDGEME_SHOP_DOMAIN: ${{ secrets.JUDGEME_SHOP_DOMAIN }}
+        # Skipped rather than failed when no token is configured: reviews are
+        # optional, and the site degrades to an honest "No reviews yet".
+        # The check is in the shell rather than a step-level `if:`, because the
+        # `secrets` context is not dependably available in a step condition.
+        run: |
+          if [ -z "$JUDGEME_TOKEN" ]; then
+            echo "No JUDGEME_TOKEN configured — skipping reviews."
+            exit 0
+          fi
+          node tools/judgeme-sync.mjs
+
+      - name: Commit if the catalogue moved
+        run: |
+          if git diff --quiet -- assets/js/core/data.js; then
+            echo "No change."
+            exit 0
+          fi
+          git config user.name  "vola-sync[bot]"
+          git config user.email "vola-sync@users.noreply.github.com"
+          git add assets/js/core/data.js
+          git commit -m "Sync catalogue and reviews from Shopify and Judge.me"
+          git push
+
+      # A sync can quietly switch off a whole section of the site — untag the
+      # made-to-order pieces and the traceability card, the homepage editions
+      # card, the shop filter and the returns exclusion all disappear. Correct,
+      # but rarely intended, so it is surfaced in the run log rather than left
+      # to be noticed on the live site.
+      - name: Report what the catalogue now supports
+        run: |
+          echo "Products: $(grep -c "id: '" assets/js/core/data.js || true)"
+          echo "Made-to-order pieces tagged atelier: $(grep -c "tag: 'atelier'" assets/js/core/data.js || true)"
