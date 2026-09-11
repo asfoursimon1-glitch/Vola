@@ -575,6 +575,24 @@ a.brand:hover, a.brand:focus-visible { letter-spacing: 0.27em; }
 }
 .hero__cta { display: flex; flex-wrap: wrap; gap: var(--space-3); }
 
+/* The line under the buttons. Sentence case rather than the uppercase of
+   .hero__meta above it, and deliberately so: the meta is a label set, this is
+   a promise, and a promise typeset as a label stops reading as one.
+
+   Sits close under the CTA (a tight margin, not a section gap) so it is read
+   as part of the button rather than as the next thing down the page — which
+   is the whole function of it. Kept quieter than the buttons and louder than
+   the meta, so the eye goes action, reassurance, detail. */
+.hero__assure {
+  margin: calc(var(--space-3) * -1 + 2px) 0 0;
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: 0 var(--space-3);
+  font-size: var(--t-sm);
+  color: rgba(247, 244, 238, 0.74);
+}
+.hero__assure b { font-weight: 500; color: rgba(247, 244, 238, 0.92); }
+.hero__assure span[aria-hidden] { opacity: 0.45; }
+
 /* Page header for interior pages ---------------------------------------- */
 .page-head {
   padding-block: var(--space-7) var(--space-5);

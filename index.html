@@ -102,7 +102,26 @@
         <a class="btn btn--accent" href="shop.html">Shop the collection</a>
         <a class="btn btn--on-dark" href="about.html">Inside the atelier</a>
       </div>
-      <ul class="hero__meta" data-hero-in style="--hi:4">
+      <!-- The two objections a first-time buyer of a $690 jean actually has:
+           what happens if it does not fit, and what it costs me to find out.
+           Answered beside the button rather than three clicks into the help
+           centre, which is where they were only findable before.
+
+           Both are facts, not claims. The number comes from VOLA.terms at
+           runtime; the 30 written here is the fallback that keeps the
+           sentence true with scripts off. Free shipping is deliberately not
+           repeated — the announcement bar states it above every page, and
+           saying it twice in one viewport spends the line on nothing.
+
+           Guest checkout is verified, not assumed: the store has
+           loginRequiredAtCheckout false, and the help centre answers the
+           same question the same way. -->
+      <p class="hero__assure" data-hero-in style="--hi:4">
+        <span><b data-returns-days>30</b> days to return, unworn</span>
+        <span aria-hidden="true">&middot;</span>
+        <span>No account needed to order</span>
+      </p>
+      <ul class="hero__meta" data-hero-in style="--hi:5">
         <li>Florence atelier</li>
         <li>Japanese &amp; Italian selvedge</li>
         <li>Numbered editions</li>
