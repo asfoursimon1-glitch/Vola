@@ -192,13 +192,27 @@
       'fact-stand': longest + ' hours on the longest piece' +
                     (longestPiece ? ' — the ' + longestPiece.name : ''),
       'fact-mills': mills.length + ' mills · ' + V.products.length + ' pieces traceable',
-      'fact-numbered': atelierCount + ' made-to-order pieces · editions of 60 or fewer',
+      'fact-numbered': V.numberWord(atelierCount, true) +
+                       ' made-to-order pieces · editions of 60 or fewer',
+      /* the three others are claims about the whole collection and survive
+         any catalogue; this one is only about the atelier pieces */
       'fact-repairs': 'No time limit, no charge, no receipt needed'
     };
     Object.keys(facts).forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.textContent = facts[id];
     });
+
+    /* "Numbered, not mass-made" is a claim about atelier pieces, and its card
+       asserts editions of sixty or fewer above the count. With none in the
+       catalogue the card does not become a smaller claim, it becomes a false
+       one — so the whole card goes, not just its number. It returns the
+       moment a piece is tagged `atelier` in Shopify. */
+    if (!atelierCount) {
+      var numbered = document.getElementById('fact-numbered');
+      var card = numbered && numbered.closest ? numbered.closest('.value') : null;
+      if (card) card.hidden = true;
+    }
 
     /* The names as well as the count — adding a mill to the catalogue should
        never leave this list quietly lying about who wove the season.

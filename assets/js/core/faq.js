@@ -75,15 +75,30 @@
             var made = V.products.filter(function (p) { return p.tag === 'atelier'; }).length;
             return '<p>Write to us the same day and we will almost always catch it. Once a piece ' +
               'has shipped it becomes a return instead.</p>' +
-              '<p>The ' + made + ' made-to-order pieces are the exception in both directions: ' +
-              'tell us before cutting begins and we will stop, at no cost. After that the piece ' +
-              'exists only for you and cannot be cancelled or returned.</p>';
+              /* No made-to-order pieces in the catalogue means there is no
+                 exception to describe. "The 0 made-to-order pieces are the
+                 exception" is not a smaller version of this paragraph — it is
+                 a rule about nothing, stated to somebody deciding whether
+                 they can cancel. It goes. */
+              (made ? '<p>The ' + V.numberWord(made) + ' made-to-order pieces are the exception ' +
+                'in both directions: tell us before cutting begins and we will stop, at no cost. ' +
+                'After that the piece exists only for you and cannot be cancelled or returned.</p>'
+                : '');
           } },
         { id: 'track', q: 'Where is my order?',
           a: function () {
-            return '<p>' + link('track.html', 'Track it here') + ' with your order number and ' +
-              'the email you placed it with. No account and no password — there is nothing to ' +
-              'sign in to.</p>' +
+            /* Same derivation as the account answer above: with hosted
+               accounts there is somewhere to sign in, and orders are behind
+               it rather than behind a number. The no-password half stays true
+               in both, and is the part worth saying. */
+            var hosted = V.auth && V.auth.hosted;
+            return '<p>' + link('track.html', 'Track it here') +
+              (hosted
+                ? '. Every order you have placed is on your account, so there is no number to ' +
+                  'dig out — and no password either: you sign in with Shop or a one-time code ' +
+                  'sent to your email.</p>'
+                : ' with your order number and the email you placed it with. No account and no ' +
+                  'password — there is nothing to sign in to.</p>') +
               '<p>A made-to-order piece is cut only once you have ordered it, so it spends weeks ' +
               'in the atelier before it ships. The tracker shows which stage it is at rather ' +
               'than leaving it on “processing”.</p>';
@@ -137,12 +152,22 @@
             var names = made.map(function (p) {
               return link('product.html?id=' + encodeURIComponent(p.id), V.esc(p.name));
             }).join(', ');
+            /* The exclusion warning is built from the list of pieces it names.
+               With none to name it rendered "The 0 made-to-order pieces are
+               excluded ... final sale: ." — a warning with an empty list and
+               a full stop where the evidence should be. An exclusion nobody
+               is subject to should not be announced at all: with no
+               made-to-order pieces the returns window has no exceptions, and
+               saying so plainly is the whole answer. */
             return '<p>' + V.terms.returnsDays + ' days from delivery, unworn, with the tag ' +
               'attached.</p>' +
-              '<p class="help__warn">' + V.icon('alert') + '<span><strong>The ' + made.length +
-              ' made-to-order pieces are excluded.</strong> They are cut to a single order and ' +
-              'cannot be resold, so they are final sale: ' + names + '. This is stated on each ' +
-              'of their product pages and again in your bag before you pay.</span></p>';
+              (made.length
+                ? '<p class="help__warn">' + V.icon('alert') + '<span><strong>The ' +
+                  V.numberWord(made.length) + ' made-to-order pieces are excluded.</strong> ' +
+                  'They are cut to a single order and cannot be resold, so they are final ' +
+                  'sale: ' + names + '. This is stated on each of their product pages and ' +
+                  'again in your bag before you pay.</span></p>'
+                : '<p>Every piece in the collection is covered — there are no exclusions.</p>');
           } },
         { id: 'exchange', q: 'How do I exchange for another size?',
           a: function () {

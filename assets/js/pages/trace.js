@@ -131,21 +131,35 @@
       return (p.prov && p.prov.hours || 0) > (a.prov && a.prov.hours || 0) ? p : a;
     });
 
-    var items = [
-      { icon: 'scissors', title: made.length + ' of ' + total + ' pieces are cut only when ordered',
+    /* This section is the maison's waste claim, and it is the one place on the
+       site where a zero is actively damaging: "0 of 6 pieces are cut only when
+       ordered" reads as a sustainability promise the catalogue disproves,
+       which is worse than saying nothing. So the cut-to-order card is dropped
+       when there is nothing to count, and the editions sentence with it —
+       rather than printing a nought under a heading about not being wasteful.
+       Both come back when a piece is tagged `atelier` in Shopify. */
+    var items = [];
+
+    if (made.length) {
+      items.push({ icon: 'scissors',
+        title: made.length + ' of ' + total + ' pieces are cut only when ordered',
         body: 'Nothing is held in stock for them and nothing is cut speculatively. The cloth ' +
               'stays on the bolt until somebody has actually asked for the piece — which is ' +
-              'the only waste reduction we can claim without measuring anything.' },
+              'the only waste reduction we can claim without measuring anything.' });
+    }
+
+    items.push(
       { icon: 'box', title: 'We buy the bolt, so we run out',
         body: 'When a cloth is gone the piece is retired rather than re-sourced in something ' +
-              'approximate. ' + editions + ' of the made-to-order pieces are numbered editions. ' +
+              'approximate. ' +
+              (editions ? editions + ' of the made-to-order pieces are numbered editions. ' : '') +
               'Running out is the cost of being able to name the loom.' },
       { icon: 'leaf', title: 'Repaired free, for as long as you own it',
         body: 'The most environmentally useful thing about a garment is how long it stays out ' +
               'of a bin. ' + longest.name + ' carries ' + (longest.prov ? longest.prov.hours : 0) +
               ' hours of hand work; throwing that away over a blown seam would be the waste, ' +
               'not the cloth.' }
-    ];
+    );
 
     host.innerHTML = items.map(function (it, i) {
       return '<div class="value" data-reveal style="--reveal-delay:' + (i * 60) + 'ms">' +
