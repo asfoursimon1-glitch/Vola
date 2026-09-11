@@ -257,6 +257,57 @@ given.
 
 ---
 
+## 7. Coming back from checkout
+
+Checkout is hosted by Shopify, and the thank-you page after it is Shopify's
+too. **It cannot be scripted.** Additional scripts on the order status page
+were removed with checkout extensibility (28 Aug 2025), and a checkout UI
+extension runs in a sandbox with no navigation API — it can render a link, it
+cannot set `window.location`. So there is no automatic bounce off the thank-you
+page, on any plan. Anything pasted into the old scripts box is inert.
+
+What the thank-you page *does* offer is a **Continue shopping** button, and it
+points at the online store root. So redirect the online store instead: the
+button then lands the customer on VOLÀ, and the same edit catches anyone who
+finds the bare `myshopify.com` storefront, which with a headless front end they
+should never be seeing.
+
+Online Store → Themes → ⋯ → Edit code → `layout/theme.liquid`, immediately
+after `<head>`:
+
+```liquid
+{%- comment -%}
+  VOLÀ is the storefront. This theme exists only so Shopify can host checkout,
+  so every theme-rendered page belongs back on the real site — including the
+  "Continue shopping" button on the thank-you page, which points here.
+
+  Why here and not on the thank-you page: that page is no longer scriptable
+  (see above). A redirect on the destination is the only one that still runs.
+
+  Skipped in the theme editor, or the theme becomes uneditable, and skipped
+  for the paths Shopify must keep serving. A stray match in that list fails
+  safe — the visitor simply stays on Shopify.
+{%- endcomment -%}
+{%- unless request.design_mode -%}
+  {%- assign path = request.path -%}
+  {%- unless path contains '/cart' or path contains '/checkout' or path contains '/account' or path contains '/tools' or path contains '/apps' or path contains '/password' or path contains '/challenge' -%}
+    <script>
+      window.location.replace('https://asfoursimon1-glitch.github.io/Vola/');
+    </script>
+  {%- endunless -%}
+{%- endunless -%}
+```
+
+Checkout itself is unaffected: it is not theme-rendered, and the cart
+permalink `shopify.js` sends the shopper to is a redirect, not a theme page.
+
+> Change the URL above if the site moves to a custom domain. It is written out
+> here because a Liquid file in the Shopify admin cannot read `VOLA.house` —
+> this is the one place the site's own address is restated, and it is outside
+> this repo. Grep for it when the domain changes.
+
+---
+
 ## Troubleshooting
 
 **"Shopify returned 401"** — wrong token, or the app is not installed.
@@ -269,6 +320,14 @@ shows as sold out because *every* colour in it is unavailable (which is
 correct).
 
 **Checkout says the catalogue has not been synced** — it hasn't. Run the sync.
+
+**The thank-you page still ends on Shopify** — it always will; it is Shopify's
+page and cannot redirect itself. §7 moves the *Continue shopping* button. If
+that button still lands on the Shopify theme, the snippet is missing from the
+**live** theme (Horizon is the published one) or the path is in its skip list.
+
+**The theme editor shows a blank redirecting page** — the `request.design_mode`
+guard is missing from the snippet.
 
 **Prices are rounded** — deliberate. The site displays whole units throughout.
 If you sell at `690.50`, change `Math.round` in `mapProduct` and `V.money` in
