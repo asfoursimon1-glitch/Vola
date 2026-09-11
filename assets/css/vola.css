@@ -3050,6 +3050,35 @@ textarea.input { min-height: 132px; padding-block: var(--space-3); line-height: 
 @keyframes vola-vt-out { to   { opacity: 0; transform: scale(0.99); } }
 @keyframes vola-vt-in  { from { opacity: 0; transform: scale(1.008); } }
 
+/* --------------------------------------------------------- 19d. SPOTLIGHT */
+/* A soft light that follows the cursor across a dark band. Warm cream rather
+   than white, and weak enough to read as light falling on cloth rather than
+   as a cursor effect — on indigo denim that is the whole idea.
+
+   Drawn in ::after so no element is added to the document for it, and marked
+   pointer-events: none so it never intercepts a click on the CTA underneath.
+   motion.js writes only --sx and --sy; everything else is declarative, which
+   keeps the paint on the compositor and off the main thread.
+
+   The band must clip it: a 520px circle tracking the pointer would otherwise
+   paint over whatever sits above and below the section. */
+[data-spotlight] { position: relative; overflow: hidden; }
+[data-spotlight]::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 520px; height: 520px;
+  margin: -260px 0 0 -260px;          /* centre the circle on the pointer */
+  translate: var(--sx, 50%) var(--sy, 50%);
+  background: radial-gradient(circle closest-side,
+              rgba(242, 239, 233, 0.13), rgba(242, 239, 233, 0) 100%);
+  opacity: 0;
+  transition: opacity 420ms var(--ease-out);
+  pointer-events: none;
+  will-change: translate;
+}
+[data-spotlight].is-lit::after { opacity: 1; }
+
 /* --------------------------------------------------------- 19b. HEART FX */
 .heart-fx {
   position: fixed;
@@ -3092,6 +3121,9 @@ textarea.input { min-height: 132px; padding-block: var(--space-3); line-height: 
   .card:hover .card__img--alt { opacity: 1; }
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
   [data-parallax] { transform: none !important; }
+  /* the light never appears rather than appearing instantly: it is pure
+     decoration, and an unmoving glow would be worse than none */
+  [data-spotlight]::after { opacity: 0 !important; }
 }
 
 /* ------------------------------------------------------------ 21. PRINT */

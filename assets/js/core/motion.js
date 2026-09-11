@@ -104,6 +104,59 @@
 
   function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
 
+  /* ----------------------------------------------------------- spotlight */
+  /* A warm light tracking the cursor across a dark band. Same shape as the
+     magnetic handler above — rAF-throttled writes, fine pointers only — but
+     it sets two custom properties instead of a transform, so the whole
+     effect is one compositor-driven pseudo-element and nothing is added to
+     the document.
+
+     `is-lit` rather than toggling opacity inline: the fade belongs with the
+     rest of the declaration in the stylesheet, and leaving it there means
+     the reduced-motion block can overrule it without JS knowing. */
+  function initSpotlight() {
+    var els = document.querySelectorAll('[data-spotlight]');
+    Array.prototype.forEach.call(els, function (el) {
+      if (el.__volaSpot) return;
+      var raf = null, x = 0, y = 0;
+
+      function onMove(e) {
+        var r = el.getBoundingClientRect();
+        x = e.clientX - r.left;
+        y = e.clientY - r.top;
+        if (raf) return;
+        raf = requestAnimationFrame(function () {
+          el.style.setProperty('--sx', x.toFixed(1) + 'px');
+          el.style.setProperty('--sy', y.toFixed(1) + 'px');
+          raf = null;
+        });
+      }
+      function onEnter() { el.classList.add('is-lit'); }
+      function onLeave() {
+        if (raf) { cancelAnimationFrame(raf); raf = null; }
+        el.classList.remove('is-lit');
+      }
+
+      el.addEventListener('mousemove', onMove);
+      el.addEventListener('mouseenter', onEnter);
+      el.addEventListener('mouseleave', onLeave);
+      el.__volaSpot = { onMove: onMove, onEnter: onEnter, onLeave: onLeave };
+    });
+  }
+
+  function teardownSpotlight() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-spotlight]'), function (el) {
+      if (!el.__volaSpot) return;
+      el.removeEventListener('mousemove', el.__volaSpot.onMove);
+      el.removeEventListener('mouseenter', el.__volaSpot.onEnter);
+      el.removeEventListener('mouseleave', el.__volaSpot.onLeave);
+      el.classList.remove('is-lit');
+      el.style.removeProperty('--sx');
+      el.style.removeProperty('--sy');
+      delete el.__volaSpot;
+    });
+  }
+
   /* --------------------------------------------------------------- hearts */
   /* A small blue heart drifts up and fades wherever the visitor clicks, and
      occasionally while they scroll. Purely decorative: fixed-position
@@ -158,14 +211,19 @@
   function boot() {
     if (reduceMotion.matches) return;
     initParallax();
-    if (fine.matches) initMagnetic();
+    if (fine.matches) { initMagnetic(); initSpotlight(); }
     initHearts();
   }
 
   /* Respect a live OS-level change, not just the value at load. */
   function onReduceMotionChange() {
-    if (reduceMotion.matches) { teardownParallax(); teardownMagnetic(); teardownHearts(); }
-    else { initParallax(); if (fine.matches) initMagnetic(); initHearts(); }
+    if (reduceMotion.matches) {
+      teardownParallax(); teardownMagnetic(); teardownSpotlight(); teardownHearts();
+    } else {
+      initParallax();
+      if (fine.matches) { initMagnetic(); initSpotlight(); }
+      initHearts();
+    }
   }
   if (reduceMotion.addEventListener) reduceMotion.addEventListener('change', onReduceMotionChange);
   else reduceMotion.addListener(onReduceMotionChange); /* older Safari */
