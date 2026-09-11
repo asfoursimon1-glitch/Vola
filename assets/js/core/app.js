@@ -615,7 +615,29 @@
   }
 
   /* --------------------------------------------------------- scroll reveal */
+  /* Section headings unveil rather than drift in — see the [data-wipe] block
+     in the stylesheet for what it does and why it is the one piece of motion
+     on the site that does not move.
+
+     Claimed here, once, rather than typed into every `.sec-head__title` in
+     sixteen hand-written pages. Consistency is the whole argument for it: a
+     section heading is a repeating component, and five identical ones where
+     the sixth behaves differently reads as a bug, not as emphasis. Doing it
+     in markup would have guaranteed that drift by the third new page.
+
+     Skips any heading already carrying the attribute, so a page that wants
+     to opt out or set its own delay keeps the last word. */
+  function claimSectionHeadings() {
+    var heads = document.querySelectorAll('.sec-head__title > .display');
+    Array.prototype.forEach.call(heads, function (h) {
+      if (h.hasAttribute('data-reveal')) return;
+      h.setAttribute('data-reveal', '');
+      h.setAttribute('data-wipe', '');
+    });
+  }
+
   function mountReveal() {
+    claimSectionHeadings();
     var nodes = document.querySelectorAll('[data-reveal]:not(.is-in)');
     if (!nodes.length) return;
     if (reduceMotion.matches || !('IntersectionObserver' in window)) {
@@ -645,9 +667,34 @@
       ? '<span class="card__flag' + (p.flag === 'Atelier' ? ' card__flag--accent' : '') + '">' + esc(p.flag) + '</span>'
       : '';
     var href = 'product.html?id=' + encodeURIComponent(p.id);
+
+    /* The second view, on hover. Not decoration: on a grid of denim the
+       difference between two cuts is the back, and asking someone to open a
+       product page to find that out is asking them to shop by guesswork.
+       The image already exists in the catalogue — the card was the only
+       place not using it.
+
+       Only when there genuinely is a different second image. `images[0]` is
+       usually the same file as `image`, and crossfading a photograph into
+       itself is a hover state that looks broken rather than subtle.
+
+       aria-hidden and empty alt: it is the same garment, already named by
+       the first image's alt and the heading below. A screen reader gaining
+       a second description of one product would be noise, not access. */
+    var alt = null;
+    if (p.images && p.images.length) {
+      for (var i = 0; i < p.images.length; i++) {
+        if (p.images[i] && p.images[i] !== p.image) { alt = p.images[i]; break; }
+      }
+    }
+
     return '<article class="card">' +
       '<div class="card__media">' + flag +
         '<img class="card__img" src="' + p.image + '" alt="' + esc(p.alt) + '" width="800" height="1000" loading="lazy" decoding="async">' +
+        (alt
+          ? '<img class="card__img card__img--alt" src="' + alt + '" alt="" aria-hidden="true" ' +
+            'width="800" height="1000" loading="lazy" decoding="async">'
+          : '') +
       '</div>' +
       '<div class="card__body">' +
         '<p class="card__cat">' + esc(catLabel(p.category)) + '</p>' +

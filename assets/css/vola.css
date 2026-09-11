@@ -623,6 +623,20 @@ a.brand:hover, a.brand:focus-visible { letter-spacing: 0.27em; }
 }
 @media (hover: hover) {
   .card:hover .card__img { transform: scale(1.045); }
+  /* The second view fades over the first, both scaling together so the
+     crossfade reads as one photograph turning rather than two images
+     swapping. Slower than the scale on purpose: the change of garment view
+     is the information, and it should land after the card has settled. */
+  .card:hover .card__img--alt { opacity: 1; }
+}
+/* Stacked, not swapped — the first image stays beneath, so a slow connection
+   showing the alt late degrades to no hover effect rather than to a gap. */
+.card__img--alt {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 520ms var(--ease-out),
+              transform var(--dur-slow) var(--ease-out);
 }
 .card__flag {
   position: absolute; top: var(--space-3); left: var(--space-3);
@@ -2987,6 +3001,27 @@ textarea.input { min-height: 132px; padding-block: var(--space-3); line-height: 
 }
 [data-reveal].is-in { opacity: 1; transform: none; }
 
+/* The unveil, for display headings only. A hard vertical edge travels left
+   to right and the line is simply there behind it — no fade, no drift, no
+   easing that overshoots. Everything else on the site arrives by moving;
+   this one arrives by being uncovered, which is the difference between a
+   thing that animates and a thing that was already made.
+
+   It is a modifier on [data-reveal] rather than a value of it, because
+   V.stagger rewrites that attribute to '' when it sequences a grid — a
+   heading that ever passed through it would silently lose its treatment.
+
+   Deliberately rationed to one or two headings a page. A signature used on
+   everything is a house style; used sparingly it is a signature. */
+[data-reveal][data-wipe] {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 900ms var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+[data-reveal][data-wipe].is-in { clip-path: inset(0 0 0 0); }
+
 /* ---------------------------------------------------- 19a. HERO LOAD-IN */
 /* Runs once, on load, above the fold - not scroll-triggered like
    [data-reveal]. Each element carries --hi (its position in the sequence)
@@ -3047,7 +3082,14 @@ textarea.input { min-height: 132px; padding-block: var(--space-3); line-height: 
     transition-duration: 0.01ms !important;
   }
   [data-reveal], [data-hero-in] { opacity: 1 !important; transform: none !important; }
+  /* the unveil is a transition on clip-path, so it needs the mask opened
+     outright — the blanket duration override above would otherwise leave a
+     heading clipped to nothing for anyone who asked for less motion */
+  [data-reveal][data-wipe] { clip-path: none !important; }
   .card:hover .card__img, .tile:hover img { transform: none; }
+  /* the second view is information, so it is kept — it simply appears
+     instead of crossfading, which the duration override above handles */
+  .card:hover .card__img--alt { opacity: 1; }
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
   [data-parallax] { transform: none !important; }
 }
