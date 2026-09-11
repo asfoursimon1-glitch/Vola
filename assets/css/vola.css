@@ -167,6 +167,16 @@ button { background: none; border: 0; padding: 0; cursor: pointer; }
 }
 .skip-link:focus { transform: translateY(0); }
 
+/* `hidden` is a presentation hint, and any `display` declaration outranks it.
+   Every component that sets one — and most do — silently renders its own
+   hidden state, which is why ten `.thing[hidden] { display: none }` patches
+   accumulated below. The bug it was still hiding: `.field { display: grid }`
+   kept all six delivery-address fields on the bag page visible after cart.js
+   had hidden them for Shopify checkout, so the form asked for an address
+   directly above a line saying the address is collected on the next step.
+   One rule, so the eleventh component does not have to find out the same way. */
+[hidden] { display: none !important; }
+
 /* ------------------------------------------------------------- 4. LAYOUT */
 .wrap {
   width: 100%;
