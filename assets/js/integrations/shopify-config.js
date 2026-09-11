@@ -59,7 +59,31 @@
     /* The metafield namespace the catalogue sync reads. See SHOPIFY.md for
        the definitions to create — a piece with none of them still imports,
        it just loses the cloth spec, provenance and fit blocks. */
-    namespace: 'vola'
+    namespace: 'vola',
+
+    /* ───────────────────────────────────────────────── ACCOUNTS ───
+       Where signing in actually happens.
+
+       Shopify runs two generations of customer accounts, and which one a
+       store is on decides what this site is allowed to build:
+
+         Classic       email + password. The Storefront API can sign someone
+                       in directly, so the form on account.html works.
+         New           no password exists at all. A customer signs in with
+                       Shop, or with a one-time code sent to their email,
+                       on a page Shopify hosts and controls.
+
+       This store is on the new generation, so a password form here could
+       never authenticate anyone — there is no password to check. Filling
+       this in replaces the sign-in and register forms with a hand-off to
+       that page, which is the only place those options exist.
+
+       Shopify admin → Settings → Customer accounts → the account URL.
+       It looks like https://shopify.com/<shop-id>/account and is public.
+
+       Leave it blank and the demo forms stay exactly as they are. Blank is
+       honest here: the forms already say plainly that nothing is checked. */
+    accountUrl: 'https://shopify.com/79642099850/account'
   };
 
   /* ─────────────────────────────────────────────────────────── Judge.me ──

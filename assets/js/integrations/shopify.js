@@ -329,12 +329,62 @@
     };
   }
 
+  /* ══════════════════════════════════════════════════ HOSTED ACCOUNTS ═══
+     When `accountUrl` is set, this store is on Shopify's new customer
+     accounts and the customer mutations above are unreachable in practice:
+     there is no password on the account for `customerAccessTokenCreate` to
+     check. Signing in happens on Shopify's own page, which is also the only
+     place the real options live — Shop, and a one-time code by email.
+
+     So the site hands off rather than imitating. What it deliberately does
+     NOT do is keep a local "signed in" flag afterwards: the token from that
+     flow belongs to the Customer Account API, which this site has no client
+     ID for, so the browser never learns who came back. A header claiming
+     somebody is signed in when nothing can verify it is precisely the kind
+     of decorative truth this codebase refuses. `isSignedIn()` stays false,
+     and every page that asked reads as signed out — correctly.
+
+     Order history moves with it: a customer's orders live behind the same
+     token, so track.html sends people to the hosted page instead of
+     pretending to look one up. Guest lookup by number was never possible
+     from the Storefront API anyway — see §5 of SHOPIFY.md. */
+  function hostedAccounts() {
+    var url = cfg().accountUrl;
+    return typeof url === 'string' && /^https:\/\//.test(url) ? url : null;
+  }
+
+  if (hostedAccounts() && V.auth) {
+    V.auth.hosted = hostedAccounts();
+
+    /* The seams are not left in demo mode underneath: a stray call to any of
+       them would sign somebody into a session that authenticates nothing.
+       They reject with the truth instead, and the pages route around them. */
+    var handOff = function () {
+      return Promise.reject(new Error('Signing in happens on Shopify’s account page.'));
+    };
+    V.auth.signIn = handOff;
+    V.auth.register = handOff;
+    V.auth.requestReset = handOff;
+
+    /* A session stored before this store moved to hosted accounts would
+       otherwise sit in the header forever, unverifiable. Clear it once. */
+    if (V.auth.isSignedIn()) V.auth.set(null, false);
+
+    if (V.orders) {
+      V.orders.hosted = V.auth.hosted;
+      V.orders.lookup = function () {
+        return Promise.reject(new Error('Your orders are on your VOLÀ account page, ' +
+          'where signing in takes a moment and needs no password.'));
+      };
+    }
+  }
+
   /* ═══════════════════════════════════════════════════════════ WIRING ═══
      Overwrite the demo seams when a store is configured. Doing it here
      rather than inside auth.js keeps the Shopify dependency in one file and
      leaves the demo working untouched when there is no store. */
   if (ready()) {
-    if (V.auth) {
+    if (V.auth && !V.auth.hosted) {
       V.auth.signIn = function (email, password, remember) {
         return shopify.signIn(email, password).then(function (user) {
           V.auth.set(user, remember);
@@ -358,7 +408,7 @@
       }
     }
 
-    if (V.orders) {
+    if (V.orders && !V.orders.hosted) {
       V.orders.live = true;
       var demoLookup = V.orders.lookup;
       V.orders.lookup = function (number, email) {

@@ -77,10 +77,12 @@
 
 <main id="main" tabindex="-1">
 
-  <!-- Not a preview banner for decoration: this page collects a password
-       field, and anyone reading the source deserves to know the check is not
-       real yet. Remove it when auth.js is wired to a provider. -->
-  <div class="devnote" role="note">
+  <!-- Not a preview banner for decoration: in demo mode this page collects a
+       password field, and anyone reading the source deserves to know the check
+       is not real. It is removed by account.js the moment a real sign-in is
+       configured, because a banner denying authentication next to a working
+       one is the same lie pointed the other way. -->
+  <div class="devnote" role="note" data-devnote="demo-auth">
     <div class="wrap devnote__inner">
       <svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="128" cy="128" r="88"/><path d="M128 80v56M128 172h.1"/></svg>
       <p><strong>Preview build — this form does not authenticate anyone.</strong>
@@ -113,8 +115,8 @@
       <div class="panel">
         <h2 class="display display--lg" id="why-h">You do not need one</h2>
         <p style="color:var(--c-muted-fg)">
-          Checkout is guest-only by design and always will be. An account adds three things,
-          and nothing is taken away without one.
+          Checkout never asks you to create one, and nothing is withheld from a guest.
+          An account adds three things, and takes nothing away.
         </p>
         <hr class="rule">
         <div class="stack">

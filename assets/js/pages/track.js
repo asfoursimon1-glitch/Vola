@@ -18,6 +18,46 @@
   var result = document.getElementById('track-result');
   var lookupWrap = document.getElementById('track-lookup');
 
+  /* Hosted customer accounts: an order belongs to an account now, and reading
+     one needs a token this site cannot hold. The number-and-email lookup was
+     never possible from the Storefront API either — see §5 of SHOPIFY.md — so
+     rather than leave a form that can only ever fail, the page points at the
+     one place the orders actually are. The demo generator stays untouched for
+     an unconfigured build, which is the only place it was ever honest. */
+  if (O.hosted) {
+    var note = document.querySelector('.devnote');
+    if (note && note.parentNode) note.parentNode.removeChild(note);
+
+    /* The static lede promises "no account, no password — there is nothing to
+       sign in to". Half of that survives: there is still no password. The
+       other half does not, and a page must not open by denying the thing its
+       own button then asks for. */
+    var lede = document.querySelector('.page-head .lede');
+    if (lede) {
+      lede.textContent = 'Signing in takes a moment and needs no password — ' +
+        'your orders are already there, with their status and tracking.';
+    }
+
+    lookupWrap.innerHTML =
+      '<h2 class="display display--lg" id="find-h" style="margin-bottom:var(--space-4)">' +
+        'Your orders</h2>' +
+      '<div class="stack">' +
+        '<p style="color:var(--c-muted-fg)">Every order you have placed is on your account ' +
+          'page, with its status and tracking — no order number to dig out.</p>' +
+        '<ul class="authgains">' +
+          '<li>Continue with <b>Shop</b>, if you already use it</li>' +
+          '<li>Or have a <b>one-time code</b> sent to the email you ordered with</li>' +
+        '</ul>' +
+        '<a class="btn btn--primary btn--block" href="' + esc(O.hosted) + '">' +
+          'Go to your orders</a>' +
+        '<p class="authnote">' + V.icon('alert') +
+          '<span>Ordered as a guest, or cannot get in? ' +
+          '<a class="link-u" href="contact.html?subject=order">Write to us</a> with the order ' +
+          'number and we will find it.</span></p>' +
+      '</div>';
+    return;
+  }
+
   var RULES = {
     number: { label: 'Order number', check: function (v) {
       return O.normalise(v) ? null : 'Order numbers look like VOLA-123456 — it is at the top of your confirmation email.'; } },

@@ -277,11 +277,48 @@
   function renderGains() {
     var host = document.getElementById('auth-gains');
     if (!host) return;
-    host.innerHTML = [
+    /* Same reasoning as account.js: a hosted Shopify account carries orders
+       and addresses, never the fit profile, which fit.js keeps in this
+       browser and sends nowhere. */
+    var gains = A.hosted ? [
+      'Your orders, their status and every past one, without an order number',
+      'Delivery addresses kept for next time',
+      'Repair and alteration requests tied to the piece you actually bought'
+    ] : [
       'Your measurements on every device, not just this browser',
       'Order history, and the pattern kept from any commission',
       'Repair requests without digging out an order number'
-    ].map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
+    ];
+    host.innerHTML = gains.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
+  }
+
+  /* Hosted accounts: there is no registration form to render. Shopify's page
+     signs in and creates an account through the same door — you give an email
+     or continue with Shop, and whether an account already existed is its
+     business, not a question this page should be asking. That also closes the
+     enumeration leak the three omissions above were working around. */
+  if (A.hosted) {
+    /* the preview banner denies something that now happens, one page over */
+    var demoNote = document.querySelector('[data-devnote="demo-auth"]');
+    if (demoNote && demoNote.parentNode) demoNote.parentNode.removeChild(demoNote);
+
+    heading.textContent = 'Create an account';
+    lede.textContent = 'One step, on the page Shopify runs for the shop. ' +
+      'No password is set, and none is ever needed.';
+    root.innerHTML = '<div class="stack">' +
+      '<ul class="authgains">' +
+        '<li>Continue with <b>Shop</b>, if you already use it</li>' +
+        '<li>Or give your email and confirm the <b>one-time code</b> sent to it</li>' +
+      '</ul>' +
+      '<a class="btn btn--primary btn--block" href="' + esc(A.hosted) + '">' +
+        'Continue to create your account</a>' +
+      '<p class="authnote">' + V.icon('alert') +
+        '<span>The address bar will read <code>shopify.com</code> — that is the shop ' +
+        'and the checkout, the same place your order is paid for. ' +
+        '<a class="link-u" href="privacy.html">What they receive</a>.</span></p>' +
+    '</div>';
+    renderGains();
+    return;
   }
 
   /* Already signed in? Creating a second account is almost never what was

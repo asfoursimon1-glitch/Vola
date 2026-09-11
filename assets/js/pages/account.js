@@ -19,6 +19,16 @@
   var lede = document.getElementById('auth-lede');
   var heading = document.getElementById('auth-h');
 
+  /* The preview banner says nothing here authenticates anyone. With a hosted
+     sign-in configured that is no longer true — it is authentication, just
+     not on this page — so the banner goes rather than contradicting the
+     button beneath it. Removed, not hidden: it should not be in the
+     accessibility tree either. */
+  function dropDemoBanner() {
+    var note = document.querySelector('[data-devnote="demo-auth"]');
+    if (note && note.parentNode) note.parentNode.removeChild(note);
+  }
+
   /* Where to go after signing in. Only ever a same-origin path from this
      site — an open redirect is a phishing gift, so anything with a scheme,
      a host, or a leading slash-slash is discarded. */
@@ -61,6 +71,40 @@
   }
 
   /* --------------------------------------------------------------- views */
+
+  /* The hand-off, when the store runs Shopify's new customer accounts.
+
+     No form, because there is nothing this page could collect: those
+     accounts have no password, and the two ways in — Shop, and a one-time
+     code by email — are issued by Shopify on a page it controls. Drawing a
+     password box here, or buttons labelled Google and Apple that Shopify
+     does not offer, would be a shopfront with nothing behind it.
+
+     The options are named anyway rather than hidden behind "Continue",
+     because "sign in on another site" is exactly the shape of a phishing
+     step, and someone who knows what is coming can tell the difference. */
+  function hostedView() {
+    heading.textContent = 'Sign in';
+    lede.textContent = 'Your orders and addresses live with your account. ' +
+      'It is never required to buy anything.';
+
+    return '<div class="stack">' +
+      '<ul class="authgains">' +
+        '<li>Continue with <b>Shop</b>, if you already use it</li>' +
+        '<li>Or have a <b>one-time code</b> sent to your email — there is no ' +
+          'password to remember, or to lose</li>' +
+      '</ul>' +
+
+      '<a class="btn btn--primary btn--block" href="' + esc(A.hosted) + '">' +
+        'Continue to sign in</a>' +
+
+      '<p class="authnote">' + V.icon('alert') +
+        '<span>Sign-in is handled by Shopify, who run the shop and the checkout, ' +
+        'so the address bar will read <code>shopify.com</code>. Creating an account ' +
+        'happens on the same page — there is no separate form. ' +
+        '<a class="link-u" href="privacy.html">What Shopify receives</a>.</span></p>' +
+    '</div>';
+  }
 
   function signInView() {
     heading.textContent = 'Sign in';
@@ -140,6 +184,16 @@
   var VIEWS = { signin: signInView, reset: resetView };
 
   function render() {
+    /* The hand-off has no form and no session of its own, so it short-circuits
+       both branches below — there is nothing to bind and nothing to validate. */
+    if (A.hosted) {
+      dropDemoBanner();
+      root.innerHTML = hostedView();
+      document.title = heading.textContent + ' — VOLÀ';
+      renderGains();
+      return;
+    }
+
     root.innerHTML = A.isSignedIn() ? signedInView() : (VIEWS[view] || signInView)();
     /* the tab should say which of the three states you are looking at */
     document.title = heading.textContent + ' — VOLÀ';
@@ -154,11 +208,23 @@
     var host = document.getElementById('auth-gains');
     if (!host) return;
     var made = V.products.filter(function (p) { return p.tag === 'atelier'; }).length;
-    host.innerHTML = [
+
+    /* A hosted account is a Shopify account: it carries orders and addresses,
+       and nothing else. The fit profile is written to this browser by fit.js
+       and is not sent anywhere, so "your measurements on every device" would
+       be an outright false promise — the one thing this list must not make.
+       It reappears the day a backend actually stores them. */
+    var gains = A.hosted ? [
+      'Your orders, their status and every past one, without an order number',
+      'Delivery addresses kept for next time',
+      'Repair and alteration requests tied to the piece you actually bought'
+    ] : [
       'Your measurements on every device, not just this browser',
       'Order history, and the pattern kept from any commission',
       'Repair requests without digging out an order number'
-    ].map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
+    ];
+
+    host.innerHTML = gains.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
     void made;
   }
 

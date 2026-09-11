@@ -147,18 +147,70 @@ seams. Nothing else needs editing.
   Shopify collects the address on the next step and asking twice is worse
   than asking once. Email and the atelier note are kept and passed through as
   cart attributes, along with saved sizes if the shopper has a fit profile.
-- **Sign in / register / reset** — real Shopify customer accounts. The
-  privacy choices from the demo are preserved: one generic failure message,
-  and an already-registered email during sign-up is answered as if it worked
-  rather than confirming the address exists.
+- **Sign in / register / reset** — **depends on which generation of customer
+  accounts the store is on.** See §4a; on this store it is a hand-off, not a
+  form. On a *classic*-accounts store these are real Storefront API calls, and
+  the privacy choices from the demo are preserved: one generic failure
+  message, and an already-registered email during sign-up answered as if it
+  worked rather than confirming the address exists.
 - **Order history** — real orders on the tracking page for a signed-in
-  customer.
+  customer, on a classic-accounts store. On new accounts it moves to the
+  hosted account page with everything else.
 - **Stale sessions** — a stored session is re-checked against Shopify on
   load, so an expired token cannot leave the header claiming somebody is
-  signed in.
+  signed in. On new accounts there is no local session at all, which is the
+  same guarantee reached by a shorter route.
+
+### 4a. Customer accounts: which generation, and why it decides the UI
+
+Shopify runs two, and they are not a skin apart:
+
+| | Classic | New (this store) |
+|---|---|---|
+| Credential | email + password | none — Shop, or a one-time email code |
+| Sign-in runs | here, via Storefront API | on Shopify's own page |
+| `customerAccessTokenCreate` | works | nothing to check a password against |
+| Orders readable by | Storefront token | Customer Account API token |
+
+Check with the Admin API — `shop { customerAccountsV2 { customerAccountsVersion } }`
+— not by looking at the theme.
+
+**On new accounts a password form here cannot authenticate anyone**, and
+there are no Google or Apple buttons to add either: Shopify does not offer
+them as separate options, and Facebook not at all. What its page offers is
+*Continue with Shop* and an emailed code, and that is the whole recommended
+set. Buttons for anything else would be a shopfront with nothing behind it.
+
+So `accountUrl` in `shopify-config.js` switches account.html, register.html
+and track.html to a hand-off: the options named in plain words, one button to
+Shopify's page. Leave it blank and the demo forms stay, which is the honest
+state for an unconfigured build.
+
+The site keeps **no session afterwards**. The token that flow issues belongs
+to the Customer Account API, which this site has no client ID for, so the
+browser never learns who came back — and `isSignedIn()` stays false rather
+than a header asserting something nothing can verify. Two consequences worth
+knowing before you file them as bugs:
+
+- The header never shows a signed-in dot, on purpose.
+- `account.html` never reaches its signed-in view. Being signed in is a fact
+  about Shopify's page, and that is where it is shown.
+
+Three sentences elsewhere derive from the same flag, because they contradict
+it otherwise: the "what an account adds" list drops *measurements on every
+device* (the fit profile is `localStorage` and syncs nowhere), the help-centre
+answer *Do I need an account* stops saying "there are none", and track.html's
+lede stops saying there is nothing to sign in to. The `.devnote` preview
+banners on `account.html` and `register.html` remove themselves.
+
+**To get a real on-site session instead**, you need the Customer Account API
+with OAuth/PKCE: a Headless channel in admin for a public client ID, and the
+site's origin allowlisted as a callback. That is a different piece of work
+from this one, and it buys back the on-site signed-in state and order history.
 
 Remove the `.devnote` banners from `account.html`, `register.html` and
-`track.html` when you go live — they exist to stop a preview being mistaken
+`track.html` when you go live — the three auth ones now remove themselves once
+`accountUrl` is set, so this applies to whichever are left — they exist to stop a preview being mistaken
 for the real thing.
 
 > There is a fourth `.devnote`, on `privacy.html`. **Leave it.** It is not
@@ -311,6 +363,18 @@ permalink `shopify.js` sends the shopper to is a redirect, not a theme page.
 ## Troubleshooting
 
 **"Shopify returned 401"** — wrong token, or the app is not installed.
+
+**Sign-in rejects a customer who definitely exists** — the store is on new
+customer accounts and that customer has no password, so there is nothing for
+`customerAccessTokenCreate` to match. It answers `UNIDENTIFIED_CUSTOMER` for
+everyone, which looks like a wrong password and is not. Set `accountUrl`; §4a.
+
+**The sign-in form has disappeared** — `accountUrl` is set, so the page hands
+off instead. Clear it to get the demo forms back.
+
+**The header never shows anyone as signed in** — correct under §4a, and not
+fixable without the Customer Account API. The site cannot see that flow's
+token, so it declines to claim a session it cannot verify.
 
 **A product is missing from the shop** — its product type matches no category.
 Run `--dry` and read the warning.

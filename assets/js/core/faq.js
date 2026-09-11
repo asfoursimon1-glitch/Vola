@@ -46,9 +46,23 @@
       items: [
         { id: 'account', q: 'Do I need an account to order?',
           a: function () {
-            return '<p>No, and there are none. Checkout is guest-only by design. Your bag and ' +
-              'your saved sizes live in this browser, not on our server, which is why they ' +
-              'survive a refresh but not a new device.</p>';
+            /* "No, and there are none" stops being true the moment accounts
+               are configured, and this answer is read by people deciding
+               whether to trust the checkout — so it is derived, not written.
+               Both branches answer the question asked (no), and differ only
+               on whether an account is a thing that exists. */
+            var hosted = V.auth && V.auth.hosted;
+            return '<p>No. Checkout never asks you to create one and nothing is withheld ' +
+              'from a guest.' +
+              (hosted
+                ? ' You can make one if you would rather have your orders and addresses ' +
+                  'kept in one place: it takes a one-time code sent to your email, or your ' +
+                  'Shop account, and there is no password to set or forget.'
+                : ' There are none to make.') +
+              '</p>' +
+              '<p>Your bag and your saved sizes are a separate matter — they live in this ' +
+              'browser, not on our server' + (hosted ? ' and not on an account' : '') + ', ' +
+              'which is why they survive a refresh but not a new device.</p>';
           } },
         { id: 'payment', q: 'How do I pay?',
           a: function () {
