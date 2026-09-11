@@ -1,6 +1,7 @@
 ---
 paths:
   - "assets/css/vola.css"
+  - "assets/js/core/motion.js"
   - "design-system/vola/**/*.md"
 ---
 
@@ -43,6 +44,30 @@ Verify by measurement, not by eye — screenshots time out often in this
 environment. `document.documentElement.scrollWidth - clientWidth`, bounding
 rects and computed styles are the reliable path. The `verify` skill has the
 loop.
+
+## Heavy runtimes: evaluated and rejected
+
+A Spline 3D scene was costed on 2026-09-12 and turned down. Recorded so the
+same afternoon is not spent twice:
+
+- **Size.** The viewer bundle is 3.57MB and a demo scene 1.32MB — about 4.9MB
+  for one decorative element, against 108KB for this entire stylesheet.
+- **Self-hosting does not make it first-party.** The bundle carries hardcoded
+  references to `cdn.spline.design` (lazy WASM), `relayserver.spline.design`,
+  `hooks.spline.design` and — the disqualifying one — `fonts.gstatic.com`,
+  fetched whenever a scene contains text. This site removed Google Fonts on
+  purpose. A scene with a text layer puts them back on every page view, and
+  `usesGoogleFonts()` in `privacy.js` would not catch it: that scans for a
+  `<link>`, not a fetch from inside a WASM runtime. The privacy page would go
+  quietly false, which is the one failure this architecture exists to prevent.
+
+The general rule this stands for: **a third-party runtime is a privacy
+decision before it is a design decision.** Anything that fetches at runtime
+has to be provably first-party, or registered — and "provably" means reading
+the bundle, not trusting the README.
+
+Depth is still available for kilobytes: layered parallax, scroll-scrubbed
+image sequences, clip-path reveals, the View Transitions API in §19c.
 
 ## Tokens
 
