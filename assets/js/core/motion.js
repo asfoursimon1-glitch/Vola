@@ -115,7 +115,16 @@
      rest of the declaration in the stylesheet, and leaving it there means
      the reduced-motion block can overrule it without JS knowing. */
   function initSpotlight() {
-    var els = document.querySelectorAll('[data-spotlight]');
+    /* Every dark band, claimed here rather than typed into sixteen pages —
+       the same argument as the section headings in app.js. A band is one
+       component, and one that lights under the cursor while its twin on the
+       next page stays dead reads as breakage, not restraint. A page opts out
+       by carrying data-spotlight="off". */
+    Array.prototype.forEach.call(document.querySelectorAll('.band'), function (b) {
+      if (!b.hasAttribute('data-spotlight')) b.setAttribute('data-spotlight', '');
+    });
+
+    var els = document.querySelectorAll('[data-spotlight]:not([data-spotlight="off"])');
     Array.prototype.forEach.call(els, function (el) {
       if (el.__volaSpot) return;
       var raf = null, x = 0, y = 0;

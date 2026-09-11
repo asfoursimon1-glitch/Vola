@@ -3062,16 +3062,20 @@ textarea.input { min-height: 132px; padding-block: var(--space-3); line-height: 
 
    The band must clip it: a 520px circle tracking the pointer would otherwise
    paint over whatever sits above and below the section. */
-[data-spotlight] { position: relative; overflow: hidden; }
-[data-spotlight]::after {
+[data-spotlight]:not([data-spotlight='off']) { position: relative; overflow: hidden; }
+[data-spotlight]:not([data-spotlight='off'])::after {
   content: '';
   position: absolute;
   top: 0; left: 0;
-  width: 520px; height: 520px;
-  margin: -260px 0 0 -260px;          /* centre the circle on the pointer */
+  width: 660px; height: 660px;
+  margin: -330px 0 0 -330px;          /* centre the circle on the pointer */
   translate: var(--sx, 50%) var(--sy, 50%);
+  /* Started at 0.13 and 520px, which was too far into restraint to survive
+     contact with a real screen — the effect was there and nobody could find
+     it, which is not subtlety, it is absence. 0.22 over a wider falloff
+     still reads as light on cloth rather than as a cursor gimmick. */
   background: radial-gradient(circle closest-side,
-              rgba(242, 239, 233, 0.13), rgba(242, 239, 233, 0) 100%);
+              rgba(242, 239, 233, 0.22), rgba(242, 239, 233, 0) 100%);
   opacity: 0;
   transition: opacity 420ms var(--ease-out);
   pointer-events: none;

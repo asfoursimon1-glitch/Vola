@@ -662,6 +662,36 @@
   };
 
   /* ------------------------------------------------------------ card markup */
+  /* The artwork a URL points at, with the things Shopify appends to a
+     filename removed: the ?v= cache-buster, and the _<uuid> it adds when the
+     same picture is uploaded to a second product. Two products sharing one
+     photograph therefore normalise to the same name, which exact URL
+     comparison would never catch — the two differ in both suffixes. */
+  function artworkName(url) {
+    return String(url || '')
+      .split('?')[0]
+      .split('/').pop()
+      .replace(/\.[a-z0-9]+$/i, '')
+      .replace(/_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i, '');
+  }
+
+  /* Is this picture some other product's main image? The synced catalogue
+     currently gives several pieces galleries containing each other's
+     photographs — the second view on the Sculpt Raw jean was the Column
+     Wide-Leg jean — so a hover would have swapped one garment for another
+     and read as a bug on a page where trust is the whole transaction.
+
+     A guard rather than a data fix, because the data is Shopify's: once real
+     per-product photography is uploaded no two pieces share artwork, and
+     this stops matching anything without ever needing to be revisited. */
+  function artworkOwnedElsewhere(url, self) {
+    var name = artworkName(url);
+    if (!name) return true;
+    return VOLA.products.some(function (other) {
+      return other !== self && other.id !== self.id && artworkName(other.image) === name;
+    });
+  }
+
   VOLA.card = function (p) {
     var flag = p.flag
       ? '<span class="card__flag' + (p.flag === 'Atelier' ? ' card__flag--accent' : '') + '">' + esc(p.flag) + '</span>'
@@ -684,7 +714,11 @@
     var alt = null;
     if (p.images && p.images.length) {
       for (var i = 0; i < p.images.length; i++) {
-        if (p.images[i] && p.images[i] !== p.image) { alt = p.images[i]; break; }
+        var cand = p.images[i];
+        if (!cand || cand === p.image) continue;
+        if (artworkOwnedElsewhere(cand, p)) continue;   /* another piece's photograph */
+        alt = cand;
+        break;
       }
     }
 
