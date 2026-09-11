@@ -136,10 +136,26 @@
           } },
         { id: 'duties', q: 'Who pays duties and taxes?',
           a: function () {
-            return '<p>You do, and they are settled with the carrier at delivery rather than ' +
-              'added at checkout. We quote prices excluding destination duty because we cannot ' +
-              'know your local rate accurately enough to charge it honestly.</p>' +
-              '<p>Inside the EU there is nothing further to pay — duty is already in the price.</p>';
+            /* This used to promise that tax is "settled with the carrier at
+               delivery rather than added at checkout", and that inside the EU
+               there is nothing further to pay. Neither survived contact with
+               the configured store, which is tax-exclusive: Shopify adds tax
+               at checkout wherever a rate applies.
+
+               Duty and tax are two different things and the old answer merged
+               them, which is how it managed to be wrong about both. They are
+               separated here, and the tax half says where the figure comes
+               from rather than predicting it — this page cannot know the
+               shopper's destination, and somebody's local rate is the last
+               thing to guess at. */
+            return '<p><strong>Tax</strong> is shown at checkout, once your delivery ' +
+              'address is known. It is added to the prices on this site rather than ' +
+              'included in them, so you will see the exact figure, and the total, before ' +
+              'you pay for anything.</p>' +
+              '<p><strong>Import duty</strong>, where your country charges it, is settled ' +
+              'with the carrier at delivery. We quote prices excluding it because we cannot ' +
+              'know your local rate accurately enough to charge it honestly — so it is not ' +
+              'collected here, and it is not in the checkout total either.</p>';
           } }
       ]
     },

@@ -105,8 +105,23 @@
       '<div class="totals__row"><span>Subtotal</span><span class="num">' + V.money(sub) + '</span></div>' +
       '<div class="totals__row"><span>Express shipping</span><span class="num">' +
         (ship === 0 ? 'Complimentary' : V.money(ship)) + '</span></div>' +
-      '<div class="totals__row"><span>Duties &amp; taxes</span><span>Settled at delivery</span></div>' +
-      '<div class="totals__row totals__row--grand"><span>Total</span>' +
+      /* "Settled at delivery" was a promise this page cannot keep. The store
+         is configured tax-exclusive (`taxesIncluded: false`), so Shopify adds
+         tax at checkout wherever a rate applies — a bag reading $690 became
+         $759 one step later, which is the shape of abandonment that costs
+         most: the number changes after the shopper has decided.
+
+         Nothing here can compute it. The rate depends on the delivery address
+         and on tax settings that live in Shopify, so the only honest thing
+         this page can say is where the answer comes from. "Calculated at
+         checkout" stays true whether the rate is 11% or nothing at all, which
+         is the point — it cannot go stale when the configuration changes.
+
+         Import duty is a separate matter and genuinely is settled with the
+         carrier, so it keeps its own row rather than being folded in. */
+      '<div class="totals__row"><span>Tax</span><span>Calculated at checkout</span></div>' +
+      '<div class="totals__row"><span>Import duty</span><span>Settled at delivery</span></div>' +
+      '<div class="totals__row totals__row--grand"><span>Total before tax</span>' +
         '<strong class="num">' + V.money(sub + ship) + '</strong></div>';
 
     var remaining = V.cart.freeShipThreshold - sub;
