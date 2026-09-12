@@ -583,6 +583,60 @@ a.brand:hover, a.brand:focus-visible { letter-spacing: 0.27em; }
   }
   .hero__figure { opacity: 0.55; }
 }
+
+/* On a phone the figure stops being a backdrop and becomes a plate above the
+   copy. The note above is right that no crop can free the text while both are
+   full-bleed — the box is far taller than the frame, so cover trims the sides
+   and the figure spans the full height whatever object-position says. The
+   only way she clears the copy is to stop sharing the space with it.
+
+   So the hero un-stacks: a band of photograph, then the copy on the indigo
+   ground below it. She is fully visible, face included, at full opacity
+   rather than the 55% the ambient-texture treatment needed — nothing is
+   printed over her any more, so nothing has to be darkened to stay legible.
+
+   The scrim keeps only the job it still has: feathering the plate's bottom
+   edge into the ground so the two read as one surface rather than as a
+   photograph pasted above some text. */
+@media (max-width: 700px) {
+  .hero {
+    min-height: 0;
+    grid-template-rows: 48svh auto;
+  }
+  .hero__figure-wrap {
+    position: relative;
+    inset: auto;
+    grid-row: 1;
+    /* The hero aligns items to its end. Harmless on an auto row, fatal on a
+       fixed one: this wrapper's only child is absolutely positioned, so it
+       has no height of its own and end-alignment collapsed it to nothing in
+       a 390px row. It has to be told to fill the band it was given. */
+    align-self: stretch;
+  }
+  .hero__figure {
+    opacity: 1;
+    /* her face and the corset, which is the piece this frame is selling */
+    object-position: 62% 18%;
+  }
+  .hero__inner {
+    grid-row: 2;
+    padding-block: var(--space-6) var(--space-7);
+  }
+  .hero__scrim {
+    /* Pinned to the top over the plate, not the bottom. The base rule sets
+       inset: 0, so releasing `top` instead of `bottom` anchored it to the
+       foot of the hero and darkened the copy it no longer sits behind. */
+    top: 0;
+    bottom: auto;
+    height: 48svh;
+    background: linear-gradient(to top,
+                var(--c-indigo-900) 0%,
+                rgba(22, 31, 51, 0.55) 12%,
+                rgba(22, 31, 51, 0) 34%);
+  }
+  /* the lean is off on touch anyway; the oversize would only crop the plate */
+  [data-tilt] { transform: none; }
+}
 .hero__inner {
   position: relative;
   padding-block: var(--space-8) var(--space-7);
