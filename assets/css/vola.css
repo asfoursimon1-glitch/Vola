@@ -609,7 +609,7 @@ a.brand:hover, a.brand:focus-visible { letter-spacing: 0.27em; }
 @media (max-width: 700px) {
   .hero {
     min-height: 0;
-    grid-template-rows: 48svh auto;
+    grid-template-rows: 34svh auto;
   }
   .hero__figure-wrap {
     position: relative;
@@ -636,7 +636,7 @@ a.brand:hover, a.brand:focus-visible { letter-spacing: 0.27em; }
        foot of the hero and darkened the copy it no longer sits behind. */
     top: 0;
     bottom: auto;
-    height: 48svh;
+    height: 34svh;
     background: linear-gradient(to top,
                 var(--c-indigo-900) 0%,
                 rgba(22, 31, 51, 0.55) 12%,
