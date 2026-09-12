@@ -609,7 +609,7 @@ a.brand:hover, a.brand:focus-visible { letter-spacing: 0.27em; }
 @media (max-width: 700px) {
   .hero {
     min-height: 0;
-    grid-template-rows: 34svh auto;
+    grid-template-rows: 28svh auto;
   }
   .hero__figure-wrap {
     position: relative;
@@ -618,7 +618,7 @@ a.brand:hover, a.brand:focus-visible { letter-spacing: 0.27em; }
     /* The hero aligns items to its end. Harmless on an auto row, fatal on a
        fixed one: this wrapper's only child is absolutely positioned, so it
        has no height of its own and end-alignment collapsed it to nothing in
-       a 390px row. It has to be told to fill the band it was given. */
+       a fixed one. It has to be told to fill the band it was given. */
     align-self: stretch;
   }
   .hero__figure {
@@ -636,7 +636,7 @@ a.brand:hover, a.brand:focus-visible { letter-spacing: 0.27em; }
        foot of the hero and darkened the copy it no longer sits behind. */
     top: 0;
     bottom: auto;
-    height: 34svh;
+    height: 28svh;
     background: linear-gradient(to top,
                 var(--c-indigo-900) 0%,
                 rgba(22, 31, 51, 0.55) 12%,
