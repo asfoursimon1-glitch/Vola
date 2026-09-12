@@ -626,6 +626,11 @@ a.brand:hover, a.brand:focus-visible { letter-spacing: 0.27em; }
     /* her face and the corset, which is the piece this frame is selling */
     object-position: 62% 18%;
   }
+  /* motion.js drives this one on scroll instead — the Ken Burns would be
+     writing the same property, and a slow zoom is the less useful of the two
+     on a band this short. The oversize it provided comes back in the
+     transform motion.js writes. */
+  .hero__figure.is-drifting { animation: none; }
   .hero__inner {
     grid-row: 2;
     padding-block: var(--space-6) var(--space-7);

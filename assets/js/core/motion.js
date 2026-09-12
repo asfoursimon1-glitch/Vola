@@ -37,9 +37,17 @@
            that 6% keeps the guarantee regardless of viewport height,
            breakpoint, or how far past the fold the element sits when
            IntersectionObserver's rootMargin first picks it up. */
-        var maxOffset = rect.height * 0.05;
+
+        /* An element can carry its own oversize instead of taking the CSS
+           one, and then the headroom is computed from it rather than assumed.
+           Half the excess is available at each edge; 0.9 of that keeps the
+           guarantee above through rounding. Absent, 1.12 reproduces the
+           0.05 this used before, so nothing that relied on it moves. */
+        var scale = parseFloat(el.getAttribute('data-parallax-scale')) || 1.12;
+        var maxOffset = rect.height * ((scale - 1) / 2) * 0.9;
         offset = clamp(offset, -maxOffset, maxOffset);
-        el.style.transform = 'translate3d(0,' + (-offset).toFixed(1) + 'px,0)';
+        el.style.transform = 'translate3d(0,' + (-offset).toFixed(1) + 'px,0)' +
+          (el.hasAttribute('data-parallax-scale') ? ' scale(' + scale + ')' : '');
       });
     }
     function request() {
@@ -103,6 +111,41 @@
   }
 
   function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+  /* ------------------------------------------------------- plate parallax */
+  /* Depth on a phone, where the tilt cannot exist.
+
+     The tilt follows a cursor, and a touch screen has none — no amount of
+     tuning changes that, so the hero plate reads flat on a phone however
+     strong the desktop effect is. What a finger can drive is scroll, so the
+     photograph drifts against the page as it passes: the same cue, from the
+     only input a phone actually has.
+
+     The Ken Burns push is dropped here because the two would be writing the
+     same property, and it is the one worth losing — an eighteen-second zoom
+     is imperceptible on a band this short, while a drift tied to the reader's
+     own thumb is not. The 1.2 oversize replaces the zoom's bleed and gives
+     the drift about 20px of travel to use.
+
+     Narrow viewports only, by the same 700px the stacked layout uses. On
+     desktop the plate keeps the Ken Burns and the cursor tilt. */
+  var NARROW = window.matchMedia('(max-width: 700px)');
+
+  function claimPlateParallax() {
+    var plate = document.querySelector('.hero__figure');
+    if (!plate) return;
+
+    if (NARROW.matches) {
+      plate.classList.add('is-drifting');
+      plate.setAttribute('data-parallax', '0.16');
+      plate.setAttribute('data-parallax-scale', '1.2');
+    } else {
+      plate.classList.remove('is-drifting');
+      plate.removeAttribute('data-parallax');
+      plate.removeAttribute('data-parallax-scale');
+      plate.style.transform = '';
+    }
+  }
 
   /* ---------------------------------------------------------------- tilt */
   /* Leans a plane toward the cursor. Tracked across the whole viewport
@@ -298,6 +341,7 @@
   /* ------------------------------------------------------------ boot */
   function boot() {
     if (reduceMotion.matches) return;
+    claimPlateParallax();          /* must precede initParallax: it observes */
     initParallax();
     if (fine.matches) { initMagnetic(); initSpotlight(); initTilt(); }
     initHearts();
@@ -309,6 +353,7 @@
       teardownParallax(); teardownMagnetic(); teardownSpotlight();
       teardownTilt(); teardownHearts();
     } else {
+      claimPlateParallax();
       initParallax();
       if (fine.matches) { initMagnetic(); initSpotlight(); initTilt(); }
       initHearts();
