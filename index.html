@@ -86,8 +86,23 @@
   <!-- ═══════════════════════════════════════════════════ HERO ═══ -->
   <section class="hero">
     <div class="hero__media" aria-hidden="true" data-parallax="0.12"></div>
-    <div class="hero__figure-wrap" aria-hidden="true">
-      <img class="hero__figure" src="assets/img/hero-model.svg" alt="">
+    <!-- The campaign frame. It replaces the generated silhouette plate, and
+         the layer was already built for it: object-fit cover, a figure-biased
+         crop and the Ken Burns push all predate this image.
+
+         data-tilt sits on the wrapper, never on the <img>. The image already
+         owns an animated transform for the Ken Burns, and two writers on one
+         property is the fight motion.js warns about for the card images.
+
+         Eager and high priority because this is the homepage LCP element —
+         everything else on the page can wait behind it. 1.8MB of PNG became
+         37KB of WebP, which is the difference between a hero and a tax. -->
+    <div class="hero__figure-wrap" aria-hidden="true" data-tilt="3.5">
+      <img class="hero__figure"
+           src="assets/img/hero-gown.webp"
+           srcset="assets/img/hero-gown-960.webp 960w, assets/img/hero-gown.webp 1672w"
+           sizes="100vw" width="1672" height="941"
+           fetchpriority="high" decoding="async" alt="">
     </div>
     <div class="hero__scrim" aria-hidden="true"></div>
     <div class="wrap hero__inner">

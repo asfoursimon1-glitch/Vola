@@ -522,15 +522,38 @@ a.brand:hover, a.brand:focus-visible { letter-spacing: 0.27em; }
   position: absolute; inset: 0;
   overflow: hidden;   /* keeps the Ken Burns zoom below from ever exposing an edge */
 }
+
+/* The tilt. A plane the cursor leans, not an object that spins — three and a
+   half degrees at the extremes, which is enough for the eye to read depth and
+   not enough to read as a gimmick on a couture frame.
+
+   perspective() inside the transform rather than on .hero, so only this layer
+   is projected: putting it on the parent would drag the headline and buttons
+   into the same 3D space and soften their text rendering.
+
+   scale(1.06) is not decoration. Rotating a full-bleed plane foreshortens its
+   edges, and without the oversize the corners would swing off the hero and
+   show the gradient behind them. */
+[data-tilt] {
+  transform: perspective(1400px)
+             rotateX(var(--tilt-x, 0deg))
+             rotateY(var(--tilt-y, 0deg))
+             scale(1.06);
+  will-change: transform;
+}
 .hero__figure {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
   /* biased toward the figure and its waist/belt line, which is what stays
      recognisable as "denim" across very different crop shapes - a tall
-     phone viewport and a wide desktop one keep almost nothing in common */
-  object-position: 78% 38%;
-  transform-origin: 65% 40%;
+     phone viewport and a wide desktop one keep almost nothing in common.
+     Retuned for the campaign frame: the model stands at 57% across it, where
+     the generated plate this replaced sat further right. At 78% a narrow
+     viewport cropped her off the left edge entirely and left a hero of empty
+     wall. */
+  object-position: 58% 30%;
+  transform-origin: 58% 34%;
   animation: hero-kenburns 18s ease-in-out infinite alternate;
 }
 @keyframes hero-kenburns {
@@ -3146,6 +3169,8 @@ textarea.input { min-height: 132px; padding-block: var(--space-3); line-height: 
   /* the light never appears rather than appearing instantly: it is pure
      decoration, and an unmoving glow would be worse than none */
   [data-spotlight]::after { opacity: 0 !important; }
+  /* the oversize stays so the corners remain covered; only the lean goes */
+  [data-tilt] { transform: scale(1.06) !important; }
 }
 
 /* ------------------------------------------------------------ 21. PRINT */

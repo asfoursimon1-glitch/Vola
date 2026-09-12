@@ -104,6 +104,71 @@
 
   function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
 
+  /* ---------------------------------------------------------------- tilt */
+  /* Leans a plane toward the cursor. Tracked across the whole viewport
+     rather than the element, because the hero fills the first screen and a
+     pointer anywhere in it should already be moving the image — waiting for
+     the cursor to cross onto the layer would make it feel switched on rather
+     than present.
+
+     Writes two custom properties and nothing else; the transform itself is
+     declared in CSS, so the rotation, the perspective and the oversize that
+     keeps the corners covered all stay in one place. Amount comes from the
+     attribute, so a second use can be calmer or stronger without touching
+     this. */
+  function initTilt() {
+    var els = document.querySelectorAll('[data-tilt]');
+    if (!els.length) return;
+
+    Array.prototype.forEach.call(els, function (el) {
+      if (el.__volaTilt) return;
+      var max = parseFloat(el.getAttribute('data-tilt')) || 3;
+      var raf = null, rx = 0, ry = 0;
+
+      function onMove(e) {
+        /* -1..1 from the centre of the viewport */
+        var nx = (e.clientX / window.innerWidth) * 2 - 1;
+        var ny = (e.clientY / window.innerHeight) * 2 - 1;
+        ry = clamp(nx, -1, 1) * max;
+        rx = clamp(-ny, -1, 1) * max;
+        if (raf) return;
+        raf = requestAnimationFrame(function () {
+          el.style.transition = '';
+          el.style.setProperty('--tilt-y', ry.toFixed(2) + 'deg');
+          el.style.setProperty('--tilt-x', rx.toFixed(2) + 'deg');
+          raf = null;
+        });
+      }
+
+      /* Leaving the document settles it back rather than abandoning it at
+         whatever angle the pointer last had — slow, because the return is
+         the only part of this the eye is given time to notice. */
+      function onLeave() {
+        if (raf) { cancelAnimationFrame(raf); raf = null; }
+        el.style.transition = 'transform 900ms ' +
+          getComputedStyle(document.documentElement).getPropertyValue('--ease-out').trim();
+        el.style.setProperty('--tilt-x', '0deg');
+        el.style.setProperty('--tilt-y', '0deg');
+      }
+
+      window.addEventListener('mousemove', onMove, { passive: true });
+      document.addEventListener('mouseleave', onLeave);
+      el.__volaTilt = { onMove: onMove, onLeave: onLeave };
+    });
+  }
+
+  function teardownTilt() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-tilt]'), function (el) {
+      if (!el.__volaTilt) return;
+      window.removeEventListener('mousemove', el.__volaTilt.onMove);
+      document.removeEventListener('mouseleave', el.__volaTilt.onLeave);
+      el.style.removeProperty('--tilt-x');
+      el.style.removeProperty('--tilt-y');
+      el.style.transition = '';
+      delete el.__volaTilt;
+    });
+  }
+
   /* ----------------------------------------------------------- spotlight */
   /* A warm light tracking the cursor across a dark band. Same shape as the
      magnetic handler above — rAF-throttled writes, fine pointers only — but
@@ -220,17 +285,18 @@
   function boot() {
     if (reduceMotion.matches) return;
     initParallax();
-    if (fine.matches) { initMagnetic(); initSpotlight(); }
+    if (fine.matches) { initMagnetic(); initSpotlight(); initTilt(); }
     initHearts();
   }
 
   /* Respect a live OS-level change, not just the value at load. */
   function onReduceMotionChange() {
     if (reduceMotion.matches) {
-      teardownParallax(); teardownMagnetic(); teardownSpotlight(); teardownHearts();
+      teardownParallax(); teardownMagnetic(); teardownSpotlight();
+      teardownTilt(); teardownHearts();
     } else {
       initParallax();
-      if (fine.matches) { initMagnetic(); initSpotlight(); }
+      if (fine.matches) { initMagnetic(); initSpotlight(); initTilt(); }
       initHearts();
     }
   }
