@@ -123,19 +123,29 @@
     Array.prototype.forEach.call(els, function (el) {
       if (el.__volaTilt) return;
       var max = parseFloat(el.getAttribute('data-tilt')) || 3;
-      var raf = null, rx = 0, ry = 0;
+      /* The shift the eye actually sees, in px at the extremes. Scaled off
+         the rotation so one attribute still governs the whole effect, and
+         held under what scale(1.10) can cover on this layer. */
+      var shift = max * 7;
+      var raf = null, rx = 0, ry = 0, tx = 0, ty = 0;
 
       function onMove(e) {
         /* -1..1 from the centre of the viewport */
-        var nx = (e.clientX / window.innerWidth) * 2 - 1;
-        var ny = (e.clientY / window.innerHeight) * 2 - 1;
-        ry = clamp(nx, -1, 1) * max;
-        rx = clamp(-ny, -1, 1) * max;
+        var nx = clamp((e.clientX / window.innerWidth) * 2 - 1, -1, 1);
+        var ny = clamp((e.clientY / window.innerHeight) * 2 - 1, -1, 1);
+        ry = nx * max;
+        rx = -ny * max;
+        /* against the pointer, not with it: the picture drifts the way a
+           thing behind glass does when you move your head */
+        tx = -nx * shift;
+        ty = -ny * shift;
         if (raf) return;
         raf = requestAnimationFrame(function () {
           el.style.transition = '';
           el.style.setProperty('--tilt-y', ry.toFixed(2) + 'deg');
           el.style.setProperty('--tilt-x', rx.toFixed(2) + 'deg');
+          el.style.setProperty('--tilt-tx', tx.toFixed(1) + 'px');
+          el.style.setProperty('--tilt-ty', ty.toFixed(1) + 'px');
           raf = null;
         });
       }
@@ -149,6 +159,8 @@
           getComputedStyle(document.documentElement).getPropertyValue('--ease-out').trim();
         el.style.setProperty('--tilt-x', '0deg');
         el.style.setProperty('--tilt-y', '0deg');
+        el.style.setProperty('--tilt-tx', '0px');
+        el.style.setProperty('--tilt-ty', '0px');
       }
 
       window.addEventListener('mousemove', onMove, { passive: true });
@@ -164,6 +176,8 @@
       document.removeEventListener('mouseleave', el.__volaTilt.onLeave);
       el.style.removeProperty('--tilt-x');
       el.style.removeProperty('--tilt-y');
+      el.style.removeProperty('--tilt-tx');
+      el.style.removeProperty('--tilt-ty');
       el.style.transition = '';
       delete el.__volaTilt;
     });

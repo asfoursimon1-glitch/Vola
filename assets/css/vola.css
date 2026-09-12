@@ -523,22 +523,30 @@ a.brand:hover, a.brand:focus-visible { letter-spacing: 0.27em; }
   overflow: hidden;   /* keeps the Ken Burns zoom below from ever exposing an edge */
 }
 
-/* The tilt. A plane the cursor leans, not an object that spins — three and a
-   half degrees at the extremes, which is enough for the eye to read depth and
-   not enough to read as a gimmick on a couture frame.
+/* The tilt. A plane the cursor leans — but the lean alone was invisible, and
+   for a reason worth keeping written down: rotation reads as depth because
+   you watch an edge move. A card has edges. A full-bleed hero image has none,
+   so three and a half degrees of rotation changed nothing anyone could point
+   at, and raising the angle would only have distorted the photograph.
+
+   What reads on a full-bleed layer is the image shifting against something
+   that stays put. The headline does not move, so translating the picture
+   against it is the parallax the eye actually notices. The rotation stays
+   underneath — it is what keeps the shift from looking like a flat slide.
 
    perspective() inside the transform rather than on .hero, so only this layer
    is projected: putting it on the parent would drag the headline and buttons
    into the same 3D space and soften their text rendering.
 
-   scale(1.06) is not decoration. Rotating a full-bleed plane foreshortens its
-   edges, and without the oversize the corners would swing off the hero and
-   show the gradient behind them. */
+   scale(1.10) is not decoration. A rotated plane foreshortens at its edges
+   and a translated one leaves a gap behind it; without the oversize to cover
+   both, the corners swing off the hero and show the gradient underneath. */
 [data-tilt] {
   transform: perspective(1400px)
              rotateX(var(--tilt-x, 0deg))
              rotateY(var(--tilt-y, 0deg))
-             scale(1.06);
+             translate3d(var(--tilt-tx, 0px), var(--tilt-ty, 0px), 0)
+             scale(1.10);
   will-change: transform;
 }
 .hero__figure {
@@ -3224,7 +3232,7 @@ textarea.input { min-height: 132px; padding-block: var(--space-3); line-height: 
      decoration, and an unmoving glow would be worse than none */
   [data-spotlight]::after { opacity: 0 !important; }
   /* the oversize stays so the corners remain covered; only the lean goes */
-  [data-tilt] { transform: scale(1.06) !important; }
+  [data-tilt] { transform: scale(1.10) !important; }
 }
 
 /* ------------------------------------------------------------ 21. PRINT */
